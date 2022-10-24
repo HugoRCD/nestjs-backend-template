@@ -1,34 +1,34 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {UserCreateInput, UserCreateOutput} from './dto/user/user-create.dto';
-import {User} from './models/user.model';
+import {RoleCreateInput, RoleCreateOutput} from './dto/role/role.create.dto';
+import {Role} from './models/role.model';
 import {SortDirection} from "../pagination/dto/pagination.dto";
 import {UsersPagination, UsersPaginationArgs} from "./dto/user/user-pagination.dto";
 
 @Injectable()
-export class UserService {
+export class RoleService {
     constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        @InjectRepository(Role)
+        private readonly roleRepository: Repository<Role>,
     ) {
     }
 
-    async userCreate(input: UserCreateInput): Promise<UserCreateOutput> {
-        const user = this.userRepository.create(input);
-        await user.save();
+    async roleCreate(input: RoleCreateInput): Promise<RoleCreateOutput> {
+        const role = this.roleRepository.create(input);
+        await role.save();
         return {
-            user,
+            role,
         };
     }
 
-    async userGetByLogin(login: string): Promise<User> {
-        return this.userRepository.findOne({where: [{email: login}, {username: login}, {telephone: login}]});
+    async getRoles() {
+        return this.roleRepository.find();
     }
 
-    async usersPagination(
-        args: UsersPaginationArgs,
-    ): Promise<UsersPagination> {
+    /*async usersPagination(
+        args: RolesPaginationArgs,
+    ): Promise<RolesPagination> {
         const qb = this.userRepository.createQueryBuilder('user');
         qb.take(args.take);
         qb.skip(args.skip);
@@ -42,5 +42,5 @@ export class UserService {
         }
         const [nodes, totalCount] = await qb.getManyAndCount();
         return {nodes, totalCount};
-    }
+    }*/
 }

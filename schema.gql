@@ -35,6 +35,18 @@ type UsersPagination {
   nodes: [User!]!
 }
 
+type Role {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+}
+
+type RoleCreateOutput {
+  role: Role!
+}
+
 type AuthLoginOutput {
   accessToken: String!
 }
@@ -42,6 +54,7 @@ type AuthLoginOutput {
 type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
+  getRoles: [Role!]!
 }
 
 input UsersPaginationSortBy {
@@ -57,6 +70,7 @@ enum SortDirection {
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   userCreate(input: UserCreateInput!): UserCreateOutput!
+  roleCreate(input: RoleCreateInput!): RoleCreateOutput!
 }
 
 input UserCreateInput {
@@ -68,4 +82,9 @@ input UserCreateInput {
   avatar: String
   telephone: String!
   birthdate: DateTime!
+}
+
+input RoleCreateInput {
+  name: String!
+  description: String!
 }
