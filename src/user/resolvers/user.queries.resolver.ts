@@ -12,9 +12,4 @@ export class UserQueriesResolver {
     async usersPagination(@Args() args: UsersPaginationArgs) {
         return this.userService.usersPagination(args);
     }
-
-    @Query(() => User)
-    async userGet(@Args('email') email: string) {
-        return this.userService.userGet(email);
-    }
 }

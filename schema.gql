@@ -42,7 +42,6 @@ type AuthLoginOutput {
 type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
-  userGet(email: String!): User!
 }
 
 input UsersPaginationSortBy {

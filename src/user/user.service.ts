@@ -22,14 +22,8 @@ export class UserService {
         };
     }
 
-    async userGet(username: User['username']): Promise<User> {
-        return await this.userRepository.findOneOrFail({username});
-    }
-
     async userGetByLogin(login: string): Promise<User> {
-        return await this.userRepository.findOneOrFail({
-            where: [{email: login}, {username: login}],
-        });
+        return this.userRepository.findOne({where: [{email: login}, {username: login}, {telephone: login}]});
     }
 
     async usersPagination(
