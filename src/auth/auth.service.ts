@@ -1,22 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/user/models/user.model';
-import { UserService } from 'src/user/user.service';
-import { AuthLoginOutput } from './dto/auth-login.dto';
+import {Injectable} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import {User} from 'src/user/models/user.model';
+import {UserService} from 'src/user/user.service';
+import {AuthLoginOutput} from './dto/auth-login.dto';
 
 export interface JWTPayload {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+    id: string;
+    email: string;
+    username: string;
+    firstname: string;
+    lastname: string;
 }
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userService: UserService,
-    private jwtService: JwtService,
-  ) {}
+    constructor(
+        private readonly userService: UserService,
+        private jwtService: JwtService,
+    ) {
+    }
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.userGet(email);
@@ -27,15 +29,16 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User): Promise<AuthLoginOutput> {
-    const payload: JWTPayload = {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    };
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
-  }
+    async login(user: User): Promise<AuthLoginOutput> {
+        const payload: JWTPayload = {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
+        };
+        return {
+            accessToken: this.jwtService.sign(payload),
+        };
+    }
 }

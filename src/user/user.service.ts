@@ -22,12 +22,14 @@ export class UserService {
         };
     }
 
-    async userGet(email: User['email']): Promise<User> {
-        return await this.userRepository.findOneOrFail({email});
+    async userGet(username: User['username']): Promise<User> {
+        return await this.userRepository.findOneOrFail({username});
     }
 
-    async userGetById(id: User['id']): Promise<User> {
-        return await this.userRepository.findOneOrFail({id});
+    async userGetByLogin(login: string): Promise<User> {
+        return await this.userRepository.findOneOrFail({
+            where: [{email: login}, {username: login}],
+        });
     }
 
     async usersPagination(
@@ -45,15 +47,6 @@ export class UserService {
             }
         }
         const [nodes, totalCount] = await qb.getManyAndCount();
-        // const [nodes, totalCount] = await this.articleRepository.findAndCount({
-        //   skip: args.skip,
-        //   take: args.take,
-        //   order: {
-        //     createdAt:
-        //       args.sortBy?.createdAt === SortDirection.ASC ? 'ASC' : 'DESC',
-        //     title: args.sortBy?.createdAt === SortDirection.ASC ? 'ASC' : 'DESC',
-        //   },
-        // });
         return {nodes, totalCount};
     }
 }

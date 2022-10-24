@@ -1,26 +1,38 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Node } from 'src/pagination/models/node.model';
-import { Column, Entity, OneToMany } from 'typeorm';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {Node} from 'src/pagination/models/node.model';
+import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
 
 @Entity()
 @ObjectType()
 export class User extends Node {
-  @Field(() => String)
-  @Column({ unique: true })
-  email: string;
+    @Field(() => String)
+    @Column({unique: true})
+    username: string;
 
-  @Column()
-  password: string;
+    @Field(() => String)
+    @Column()
+    firstname: string;
 
-  @Field(() => String)
-  @Column()
-  firstName: string;
+    @Field(() => String)
+    @Column()
+    lastname: string;
 
-  @Field(() => String)
-  @Column()
-  lastName: string;
+    @Field(() => Date)
+    @Column()
+    birthdate: Date;
 
-  @Field(() => String, { nullable: true })
-  @Column({ nullable: true })
-  avatar?: string;
+    @Field(() => String)
+    @Column({unique: true})
+    email: string;
+
+    @Field(() => String)
+    @Column()
+    telephone: string;
+
+    @Column()
+    password: string;
+
+    @Field(() => String, {nullable: true})
+    @Column({nullable: true})
+    avatar?: string;
 }

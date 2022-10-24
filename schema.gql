@@ -17,9 +17,12 @@ type User {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  username: String!
+  firstname: String!
+  lastname: String!
+  birthdate: DateTime!
   email: String!
-  firstName: String!
-  lastName: String!
+  telephone: String!
   avatar: String
 }
 
@@ -58,9 +61,12 @@ type Mutation {
 }
 
 input UserCreateInput {
-  firstName: String!
-  lastName: String!
+  username: String!
+  firstname: String!
+  lastname: String!
   email: String!
   password: String!
   avatar: String
+  telephone: String!
+  birthdate: DateTime!
 }

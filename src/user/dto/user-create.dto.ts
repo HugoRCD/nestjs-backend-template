@@ -4,10 +4,13 @@ import {User} from '../models/user.model';
 @InputType()
 export class UserCreateInput {
     @Field(() => String)
-    firstName: string;
+    username: string;
 
     @Field(() => String)
-    lastName: string;
+    firstname: string;
+
+    @Field(() => String)
+    lastname: string;
 
     @Field(() => String)
     email: string;
@@ -17,6 +20,12 @@ export class UserCreateInput {
 
     @Field(() => String, {nullable: true})
     avatar?: string;
+
+    @Field(() => String)
+    telephone: string;
+
+    @Field(() => Date)
+    birthdate: Date;
 }
 
 @ObjectType()
