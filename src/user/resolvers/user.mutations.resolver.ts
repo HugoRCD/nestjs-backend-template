@@ -9,7 +9,7 @@ export class UserMutationsResolver {
     }
 
     @Mutation(() => UserCreateOutput)
-    async userCreate(@Args('input') input: UserCreateInput) {
-        return this.userService.userCreate(input);
+    async userCreate(@Args('userCreateInput') userCreateInput: UserCreateInput) {
+        return this.userService.userCreate(userCreateInput);
     }
 }

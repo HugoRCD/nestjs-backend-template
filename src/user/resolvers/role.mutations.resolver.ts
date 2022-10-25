@@ -9,7 +9,7 @@ export class RoleMutationsResolver {
     }
 
     @Mutation(() => RoleCreateOutput)
-    async roleCreate(@Args('input') input: RoleCreateInput) {
-        return this.roleService.roleCreate(input);
+    async roleCreate(@Args('roleCreateInput') roleCreateInput: RoleCreateInput) {
+        return this.roleService.roleCreate(roleCreateInput);
     }
 }

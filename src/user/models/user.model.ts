@@ -1,6 +1,7 @@
 import {Field, ObjectType} from '@nestjs/graphql';
 import {Node} from 'src/pagination/models/node.model';
-import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, RelationId} from 'typeorm';
+import {Role} from "./role.model";
 
 @Entity()
 @ObjectType()

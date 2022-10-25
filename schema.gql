@@ -37,10 +37,10 @@ type UsersPagination {
 
 type Role {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
   name: String!
   description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type RoleCreateOutput {
@@ -69,8 +69,8 @@ enum SortDirection {
 
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
-  userCreate(input: UserCreateInput!): UserCreateOutput!
-  roleCreate(input: RoleCreateInput!): RoleCreateOutput!
+  userCreate(userCreateInput: UserCreateInput!): UserCreateOutput!
+  roleCreate(roleCreateInput: RoleCreateInput!): RoleCreateOutput!
 }
 
 input UserCreateInput {
@@ -79,6 +79,7 @@ input UserCreateInput {
   lastname: String!
   email: String!
   password: String!
+  role: String!
   avatar: String
   telephone: String!
   birthdate: DateTime!
