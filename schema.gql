@@ -36,7 +36,7 @@ type UsersPagination {
 }
 
 type Role {
-  id: ID!
+  id: Int!
   name: String!
   description: String!
   createdAt: DateTime!

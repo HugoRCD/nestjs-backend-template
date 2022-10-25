@@ -1,4 +1,4 @@
-import {Field, ID, ObjectType} from '@nestjs/graphql';
+import {Field, ID, Int, ObjectType} from '@nestjs/graphql';
 import {
     BaseEntity,
     Column,
@@ -13,9 +13,9 @@ import {
 @Entity()
 @ObjectType()
 export class Role extends BaseEntity {
-    @Field(() => ID)
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @Field(() => Int)
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Field(() => String)
     @Column({unique: true})
