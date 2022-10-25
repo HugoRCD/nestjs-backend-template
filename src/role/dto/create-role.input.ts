@@ -1,10 +1,10 @@
-import {Field, InputType, ObjectType} from '@nestjs/graphql';
-import {Column} from "typeorm";
-import {Role} from "../../models/role.model";
+import {InputType, Int, Field, ObjectType} from '@nestjs/graphql';
 import {IsAlpha} from "class-validator";
+import {Column} from "typeorm";
+import {Role} from "../entities/role.entity";
 
 @InputType()
-export class RoleCreateInput {
+export class CreateRoleInput {
     @IsAlpha()
     @Field(() => String)
     @Column({unique: true})
@@ -16,7 +16,7 @@ export class RoleCreateInput {
 }
 
 @ObjectType()
-export class RoleCreateOutput {
+export class CreateRoleOutput {
     @Field(() => Role)
     role: Role;
 }

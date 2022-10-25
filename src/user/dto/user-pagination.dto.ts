@@ -5,7 +5,7 @@ import {
   PaginationSortBy,
   SortDirection,
 } from 'src/pagination/dto/pagination.dto';
-import { User } from "../../models/user.model";
+import { User } from "../entities/user.entity";
 
 @InputType()
 export class UsersPaginationSortBy extends PaginationSortBy {

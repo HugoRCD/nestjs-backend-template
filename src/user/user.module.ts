@@ -1,24 +1,18 @@
-import {Module} from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {User} from './models/user.model';
+import {User} from './entities/user.entity';
 import {UserMutationsResolver} from './resolvers/user.mutations.resolver';
 import {UserService} from './user.service';
 import {UserQueriesResolver} from "./resolvers/user.queries.resolver";
-
-import {Role} from "./models/role.model";
-import {RoleMutationsResolver} from "./resolvers/role.mutations.resolver";
-import {RoleService} from "./role.service";
-import {RoleQueriesResolver} from "./resolvers/role.queries.resolver";
+import {RoleModule} from "../role/role.module";
+import {Role} from "../role/entities/role.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([Role])],
+    imports: [TypeOrmModule.forFeature([User, Role]), forwardRef(() => RoleModule)],
     providers: [
         UserService,
         UserMutationsResolver,
-        UserQueriesResolver,
-        RoleService,
-        RoleMutationsResolver,
-        RoleQueriesResolver
+        UserQueriesResolver
     ],
     exports: [UserService],
 })

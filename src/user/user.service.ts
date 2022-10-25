@@ -1,16 +1,19 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {UserCreateInput, UserCreateOutput} from './dto/user/user-create.dto';
-import {User} from './models/user.model';
+import {UserCreateInput, UserCreateOutput} from './dto/user-create.dto';
+import {User} from './entities/user.entity';
 import {SortDirection} from "../pagination/dto/pagination.dto";
-import {UsersPagination, UsersPaginationArgs} from "./dto/user/user-pagination.dto";
+import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
+import {Role} from "../role/entities/role.entity";
+import {RoleService} from "../role/role.service";
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
+        private userRepository: Repository<User>,
+        private roleService: RoleService,
     ) {
     }
 
@@ -24,6 +27,10 @@ export class UserService {
 
     async userGetByLogin(login: string): Promise<User> {
         return this.userRepository.findOne({where: [{email: login}, {username: login}, {telephone: login}]});
+    }
+
+    getRole(roleId: number): Promise<Role> {
+        return this.roleService.findOne(roleId);
     }
 
     async usersPagination(

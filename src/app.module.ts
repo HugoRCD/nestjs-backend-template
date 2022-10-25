@@ -9,6 +9,7 @@ import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -27,12 +28,13 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB-USER'),
         password: configService.get('DB-PASSWD'),
         database: configService.get('DB-NAME'),
-        entities: [join(__dirname, '**', '*.model.{ts,js}')],
+        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         synchronize: true,
       }),
     }),
     AuthModule,
-    UserModule
+    UserModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

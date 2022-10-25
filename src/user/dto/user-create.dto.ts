@@ -1,6 +1,5 @@
-import {Field, InputType, ObjectType} from '@nestjs/graphql';
-import {User} from '../../models/user.model';
-import {Role} from "../../models/role.model";
+import {Field, InputType, Int, ObjectType} from '@nestjs/graphql';
+import {User} from '../entities/user.entity';
 import {IsAlpha, IsDate, IsEmail, IsNotEmpty, IsPhoneNumber} from "class-validator";
 
 @InputType()
@@ -24,8 +23,8 @@ export class UserCreateInput {
     @Field(() => String)
     password: string;
 
-    @Field(() => String)
-    role: Role['id'];
+    @Field(() => Int)
+    roleId: number;
 
     @Field(() => String, {nullable: true})
     avatar?: string;

@@ -13,6 +13,26 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Role {
+  """Primary Key"""
+  id: Int!
+
+  """Role name"""
+  name: String!
+
+  """Role description"""
+  description: String!
+
+  """Users with this role"""
+  users: [User!]
+
+  """Creation date"""
+  createdAt: DateTime!
+
+  """Last update date"""
+  updatedAt: DateTime!
+}
+
 type User {
   id: ID!
   createdAt: DateTime!
@@ -24,6 +44,9 @@ type User {
   email: String!
   telephone: String!
   avatar: String
+  roleId: Int!
+  role: Role!
+  roles: [Role!]!
 }
 
 type UserCreateOutput {
@@ -35,18 +58,6 @@ type UsersPagination {
   nodes: [User!]!
 }
 
-type Role {
-  id: Int!
-  name: String!
-  description: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type RoleCreateOutput {
-  role: Role!
-}
-
 type AuthLoginOutput {
   accessToken: String!
 }
@@ -54,7 +65,8 @@ type AuthLoginOutput {
 type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
-  getRoles: [Role!]!
+  findAll: [Role!]!
+  role(id: Int!): Role!
 }
 
 input UsersPaginationSortBy {
@@ -70,7 +82,7 @@ enum SortDirection {
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   userCreate(userCreateInput: UserCreateInput!): UserCreateOutput!
-  roleCreate(roleCreateInput: RoleCreateInput!): RoleCreateOutput!
+  createRole(createRoleInput: CreateRoleInput!): Role!
 }
 
 input UserCreateInput {
@@ -79,13 +91,13 @@ input UserCreateInput {
   lastname: String!
   email: String!
   password: String!
-  role: String!
+  roleId: Int!
   avatar: String
   telephone: String!
   birthdate: DateTime!
 }
 
-input RoleCreateInput {
+input CreateRoleInput {
   name: String!
   description: String!
 }
