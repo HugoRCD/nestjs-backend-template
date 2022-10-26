@@ -6,13 +6,15 @@ import {UserService} from './user.service';
 import {UserQueriesResolver} from "./resolvers/user.queries.resolver";
 import {RoleModule} from "../role/role.module";
 import {Role} from "../role/entities/role.entity";
+import {UserFieldsResolver} from "./resolvers/user.fields.resolver";
 
 @Module({
     imports: [TypeOrmModule.forFeature([User, Role]), forwardRef(() => RoleModule)],
     providers: [
         UserService,
         UserMutationsResolver,
-        UserQueriesResolver
+        UserQueriesResolver,
+        UserFieldsResolver
     ],
     exports: [UserService],
 })

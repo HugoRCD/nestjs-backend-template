@@ -5,6 +5,7 @@ import {Role} from "./entities/role.entity";
 import {Repository} from "typeorm";
 import {SortDirection} from "../pagination/dto/pagination.dto";
 import {RolesPagination, RolesPaginationArgs} from "./dto/role-pagination.dto";
+import {User} from "../user/entities/user.entity";
 
 @Injectable()
 export class RoleService {
@@ -18,11 +19,20 @@ export class RoleService {
         }
     }
 
-    findAll() {
+    getAllRoles() {
         return this.roleRepository.find();
     }
 
-    findOne(id: number) {
+    getUsersByRole(roleId: number): Promise<User[]> {
+        return this.roleRepository
+            .createQueryBuilder('role')
+            .leftJoinAndSelect('role.users', 'users')
+            .where('role.id = :roleId', {roleId})
+            .getOne()
+            .then(role => role.users);
+    }
+
+    getRoleById(id: number) {
         return this.roleRepository.findOne(id);
     }
 

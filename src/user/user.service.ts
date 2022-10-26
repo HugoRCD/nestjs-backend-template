@@ -29,8 +29,12 @@ export class UserService {
         return this.userRepository.findOne({where: [{email: login}, {username: login}, {telephone: login}]});
     }
 
-    getRole(roleId: number): Promise<Role> {
-        return this.roleService.findOne(roleId);
+    async getUserById(id: number): Promise<User> {
+        return this.userRepository.findOne(id);
+    }
+
+    getRoleById(roleId: number): Promise<Role> {
+        return this.roleService.getRoleById(roleId);
     }
 
     async usersPagination(

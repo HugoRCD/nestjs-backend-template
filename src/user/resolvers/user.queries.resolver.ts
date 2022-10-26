@@ -12,4 +12,9 @@ export class UserQueriesResolver {
     async usersPagination(@Args() args: UsersPaginationArgs) {
         return this.userService.usersPagination(args);
     }
+
+    @Query(() => User)
+    async getUserById(@Args('id') id: number) {
+        return this.userService.getUserById(id);
+    }
 }

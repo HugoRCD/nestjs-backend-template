@@ -56,7 +56,6 @@ type User {
   avatar: String
   roleId: Int!
   role: Role!
-  roles: [Role!]!
 }
 
 type CreateUserOutput {
@@ -84,8 +83,9 @@ type AuthLoginOutput {
 type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
+  getUserById(id: Float!): User!
   rolesPagination(skip: Int!, take: Int!, sortBy: RolesPaginationSortBy): RolesPagination!
-  findAll: [Role!]!
+  getAllRoles: [Role!]!
   role(id: Int!): Role!
 }
 

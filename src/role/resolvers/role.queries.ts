@@ -14,12 +14,12 @@ export class RolesQueriesResolver {
     }
 
     @Query(() => [Role])
-    findAll() {
-        return this.roleService.findAll();
+    getAllRoles() {
+        return this.roleService.getAllRoles();
     }
 
     @Query(() => Role, {name: 'role'})
-    findOne(@Args('id', {type: () => Int}) id: number) {
-        return this.roleService.findOne(id);
+    getRoleById(@Args('id', {type: () => Int}) id: number) {
+        return this.roleService.getRoleById(id);
     }
 }
