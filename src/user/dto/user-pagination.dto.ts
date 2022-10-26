@@ -10,7 +10,7 @@ import { User } from "../entities/user.entity";
 @InputType()
 export class UsersPaginationSortBy extends PaginationSortBy {
   @Field(() => SortDirection, { nullable: true })
-  title?: SortDirection;
+  username?: SortDirection;
 }
 
 @ArgsType()

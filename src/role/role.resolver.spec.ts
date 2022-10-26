@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RoleResolver } from './role.resolver';
+import { RoleMutations } from './resolvers/role.mutations';
 import { RoleService } from './role.service';
 
 describe('RoleResolver', () => {
-  let resolver: RoleResolver;
+  let resolver: RoleMutations;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RoleResolver, RoleService],
+      providers: [RoleMutations, RoleService],
     }).compile();
 
-    resolver = module.get<RoleResolver>(RoleResolver);
+    resolver = module.get<RoleMutations>(RoleMutations);
   });
 
   it('should be defined', () => {

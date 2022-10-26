@@ -5,7 +5,7 @@ import {UserService} from 'src/user/user.service';
 import {AuthLoginOutput} from './dto/auth-login.dto';
 
 export interface JWTPayload {
-    id: string;
+    id: number;
     email: string;
     username: string;
     firstname: string;

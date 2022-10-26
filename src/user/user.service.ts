@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {UserCreateInput, UserCreateOutput} from './dto/user-create.dto';
+import {CreateUserInput, CreateUserOutput} from './dto/user-create.input';
 import {User} from './entities/user.entity';
 import {SortDirection} from "../pagination/dto/pagination.dto";
 import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
@@ -17,7 +17,7 @@ export class UserService {
     ) {
     }
 
-    async userCreate(input: UserCreateInput): Promise<UserCreateOutput> {
+    async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
         const user = this.userRepository.create(input);
         await user.save();
         return {

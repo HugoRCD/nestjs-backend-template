@@ -6,7 +6,7 @@ import {
   InterfaceType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { Node } from '../models/node.model';
+import { Node } from '../entities/node.entity';
 
 export enum SortDirection {
   ASC,

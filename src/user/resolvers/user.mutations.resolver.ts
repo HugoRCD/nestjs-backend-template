@@ -1,5 +1,5 @@
 import {Args, Mutation, Parent, ResolveField, Resolver} from '@nestjs/graphql';
-import {UserCreateInput, UserCreateOutput} from '../dto/user-create.dto';
+import {CreateUserInput, CreateUserOutput} from '../dto/user-create.input';
 import {User} from '../entities/user.entity';
 import {UserService} from '../user.service';
 import {Role} from "../../role/entities/role.entity";
@@ -9,9 +9,9 @@ export class UserMutationsResolver {
     constructor(private readonly userService: UserService) {
     }
 
-    @Mutation(() => UserCreateOutput)
-    async userCreate(@Args('userCreateInput') userCreateInput: UserCreateInput) {
-        return this.userService.userCreate(userCreateInput);
+    @Mutation(() => CreateUserOutput)
+    async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+        return this.userService.createUser(createUserInput);
     }
 
     @ResolveField(() => [Role])

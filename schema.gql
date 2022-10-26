@@ -3,8 +3,13 @@
 # ------------------------------------------------------
 
 interface Node {
-  id: ID!
+  """Primary Key"""
+  id: Int!
+
+  """Creation date"""
   createdAt: DateTime!
+
+  """Last update date"""
   updatedAt: DateTime!
 }
 
@@ -17,6 +22,12 @@ type Role {
   """Primary Key"""
   id: Int!
 
+  """Creation date"""
+  createdAt: DateTime!
+
+  """Last update date"""
+  updatedAt: DateTime!
+
   """Role name"""
   name: String!
 
@@ -25,17 +36,16 @@ type Role {
 
   """Users with this role"""
   users: [User!]
+}
+
+type User {
+  """Primary Key"""
+  id: Int!
 
   """Creation date"""
   createdAt: DateTime!
 
   """Last update date"""
-  updatedAt: DateTime!
-}
-
-type User {
-  id: ID!
-  createdAt: DateTime!
   updatedAt: DateTime!
   username: String!
   firstname: String!
@@ -49,13 +59,22 @@ type User {
   roles: [Role!]!
 }
 
-type UserCreateOutput {
+type CreateUserOutput {
   user: User!
 }
 
 type UsersPagination {
   totalCount: Float!
   nodes: [User!]!
+}
+
+type CreateRoleOutput {
+  role: Role!
+}
+
+type RolesPagination {
+  totalCount: Float!
+  nodes: [Role!]!
 }
 
 type AuthLoginOutput {
@@ -65,13 +84,14 @@ type AuthLoginOutput {
 type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
+  rolesPagination(skip: Int!, take: Int!, sortBy: RolesPaginationSortBy): RolesPagination!
   findAll: [Role!]!
   role(id: Int!): Role!
 }
 
 input UsersPaginationSortBy {
   createdAt: SortDirection
-  title: SortDirection
+  username: SortDirection
 }
 
 enum SortDirection {
@@ -79,13 +99,18 @@ enum SortDirection {
   DESC
 }
 
-type Mutation {
-  authLogin(username: String!, password: String!): AuthLoginOutput!
-  userCreate(userCreateInput: UserCreateInput!): UserCreateOutput!
-  createRole(createRoleInput: CreateRoleInput!): Role!
+input RolesPaginationSortBy {
+  createdAt: SortDirection
+  name: SortDirection
 }
 
-input UserCreateInput {
+type Mutation {
+  authLogin(username: String!, password: String!): AuthLoginOutput!
+  createUser(createUserInput: CreateUserInput!): CreateUserOutput!
+  createRole(createRoleInput: CreateRoleInput!): CreateRoleOutput!
+}
+
+input CreateUserInput {
   username: String!
   firstname: String!
   lastname: String!

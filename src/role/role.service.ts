@@ -1,16 +1,21 @@
 import {Injectable} from '@nestjs/common';
-import {CreateRoleInput} from './dto/create-role.input';
+import {CreateRoleInput, CreateRoleOutput} from './dto/create-role.input';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Role} from "./entities/role.entity";
 import {Repository} from "typeorm";
+import {SortDirection} from "../pagination/dto/pagination.dto";
+import {RolesPagination, RolesPaginationArgs} from "./dto/role-pagination.dto";
 
 @Injectable()
 export class RoleService {
     constructor(@InjectRepository(Role) private roleRepository: Repository<Role>) {}
 
-    create(createRoleInput: CreateRoleInput): Promise<Role> {
+    async createRole(createRoleInput: CreateRoleInput): Promise<CreateRoleOutput> {
         const role = this.roleRepository.create(createRoleInput);
-        return this.roleRepository.save(role);
+        await role.save();
+        return {
+            role,
+        }
     }
 
     findAll() {
@@ -19,5 +24,23 @@ export class RoleService {
 
     findOne(id: number) {
         return this.roleRepository.findOne(id);
+    }
+
+    async rolesPagination(
+        args: RolesPaginationArgs,
+    ): Promise<RolesPagination> {
+        const qb = this.roleRepository.createQueryBuilder('role');
+        qb.take(args.take);
+        qb.skip(args.skip);
+        if (args.sortBy) {
+            if (args.sortBy.createdAt !== null) {
+                qb.addOrderBy(
+                    'role.createdAt',
+                    args.sortBy.createdAt === SortDirection.ASC ? 'ASC' : 'DESC',
+                );
+            }
+        }
+        const [nodes, totalCount] = await qb.getManyAndCount();
+        return {nodes, totalCount};
     }
 }

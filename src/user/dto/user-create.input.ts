@@ -3,7 +3,7 @@ import {User} from '../entities/user.entity';
 import {IsAlpha, IsDate, IsEmail, IsNotEmpty, IsPhoneNumber} from "class-validator";
 
 @InputType()
-export class UserCreateInput {
+export class CreateUserInput {
     @Field(() => String)
     username: string;
 
@@ -39,7 +39,7 @@ export class UserCreateInput {
 }
 
 @ObjectType()
-export class UserCreateOutput {
+export class CreateUserOutput {
     @Field(() => User)
     user: User;
 }
