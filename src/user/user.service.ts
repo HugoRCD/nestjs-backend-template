@@ -8,6 +8,8 @@ import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
 import {Role} from "../role/entities/role.entity";
 import {RoleService} from "../role/role.service";
 
+const bcrypt = require('bcrypt');
+
 @Injectable()
 export class UserService {
     constructor(
@@ -17,7 +19,17 @@ export class UserService {
     ) {
     }
 
+    async hashPassword(passwordToHash: string) {
+        const saltRounds = 10;
+        return bcrypt.hash(passwordToHash, saltRounds);
+    }
+
+    async deHashPassword(passwordToDeHash: string, passwordHash: string) {
+        return bcrypt.compare(passwordToDeHash, passwordHash);
+    }
+
     async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
+        input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
         await user.save();
         return {
