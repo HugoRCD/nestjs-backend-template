@@ -7,6 +7,7 @@ import {SortDirection} from "../pagination/dto/pagination.dto";
 import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
 import {Role} from "../role/entities/role.entity";
 import {RoleService} from "../role/role.service";
+import {MailingService} from "../mailing/mailing.service";
 
 const bcrypt = require('bcrypt');
 
@@ -16,6 +17,7 @@ export class UserService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         private roleService: RoleService,
+        private MailingService: MailingService,
     ) {
     }
 
@@ -32,6 +34,7 @@ export class UserService {
         input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
         await user.save();
+        this.MailingService.sendMail(user, 'welcome', 'Welcome !!!');
         return {
             user,
         };
