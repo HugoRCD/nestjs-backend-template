@@ -4,5 +4,5 @@ import { User } from '../entities/user.entity';
 @ObjectType()
 export class DeleteUserOutput {
     @Field(() => ID)
-    userId: User['id'];
+    userId: User['id']; //TODO: Add message
 }
