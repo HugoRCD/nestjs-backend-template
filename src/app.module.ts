@@ -14,6 +14,8 @@ import {MailerModule} from "@nestjs-modules/mailer";
 import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
 
+const domains = ['http://localhost:8080', 'http://localhost:3000'];
+
 @Module({
     imports: [
         ConfigModule.forRoot(),
@@ -21,8 +23,13 @@ import {MailingModule} from "./mailing/mailing.module";
             driver: ApolloDriver,
             autoSchemaFile: 'schema.gql',
             cors: {
-                origin: 'http://localhost:3000',
-                credentials: true,
+                origin: function (origin, callback) {
+                    if (!origin || domains.indexOf(origin) !== -1) {
+                        callback(null, true)
+                    } else {
+                        callback(new Error('Not allowed by CORS' + origin))
+                    }
+                }
             },
         }),
         MailerModule.forRootAsync({
