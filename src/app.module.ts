@@ -31,7 +31,7 @@ import {MailingModule} from "./mailing/mailing.module";
                     host: 'smtp.gmail.com',
                     port: 587,
                     auth: {
-                        user: 'hrcd@maisonhochard.com',
+                        user: 'contact@maisonhochard.com',
                         pass: 'zzoplsuvngtsntzt', //TODO : use env variable
                     }
                 },
