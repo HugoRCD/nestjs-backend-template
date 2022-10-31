@@ -62,6 +62,14 @@ type CreateUserOutput {
   user: User!
 }
 
+type UpdateUserOutput {
+  user: User!
+}
+
+type DeleteUserOutput {
+  userId: ID!
+}
+
 type UsersPagination {
   totalCount: Float!
   nodes: [User!]!
@@ -107,10 +115,24 @@ input RolesPaginationSortBy {
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   createUser(createUserInput: CreateUserInput!): CreateUserOutput!
+  updateUser(userId: ID!, input: UpdateUserInput!): UpdateUserOutput!
+  deleteUser(userId: ID!): DeleteUserOutput!
   createRole(createRoleInput: CreateRoleInput!): CreateRoleOutput!
 }
 
 input CreateUserInput {
+  username: String!
+  firstname: String!
+  lastname: String!
+  email: String!
+  password: String!
+  roleId: Int!
+  avatar: String
+  telephone: String!
+  birthdate: DateTime!
+}
+
+input UpdateUserInput {
   username: String!
   firstname: String!
   lastname: String!

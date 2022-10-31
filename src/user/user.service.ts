@@ -8,6 +8,8 @@ import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
 import {Role} from "../role/entities/role.entity";
 import {RoleService} from "../role/role.service";
 import {MailingService} from "../mailing/mailing.service";
+import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
+import {DeleteUserOutput} from "./dto/user-delete.input";
 
 const bcrypt = require('bcrypt');
 
@@ -38,6 +40,26 @@ export class UserService {
         return {
             user,
         };
+    }
+
+    async updateUser(userId: User['id'], input: UpdateUserInput): Promise<UpdateUserOutput> {
+        const user = await this.userRepository.findOne(userId);
+        if (input.password) {
+            input.password = await this.hashPassword(input.password);
+        }
+        this.userRepository.merge(user, input);
+        await this.userRepository.save(user);
+        return {
+            user,
+        };
+    }
+
+    async deleteUser(userId: User['id']): Promise<DeleteUserOutput> {
+        const user = await this.userRepository.findOne(userId);
+        await this.userRepository.remove(user);
+        return {
+            userId,
+        }
     }
 
     async userGetByLogin(login: string): Promise<User> {
