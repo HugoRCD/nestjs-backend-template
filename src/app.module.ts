@@ -45,7 +45,7 @@ const domains = ['http://localhost:8080', 'http://localhost:3000'];
                 defaults: {
                     from: 'contact@maisonhochard.com',
                 },
-                preview: true,
+                preview: false,
                 template: {
                     dir: process.cwd() + '/src/mailing/templates/',
                     adapter: new PugAdapter(),

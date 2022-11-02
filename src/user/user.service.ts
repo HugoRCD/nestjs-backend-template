@@ -10,6 +10,7 @@ import {RoleService} from "../role/role.service";
 import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
 import {DeleteUserOutput} from "./dto/user-delete.input";
+import {JWTPayload} from "../auth/auth.service";
 
 const bcrypt = require('bcrypt');
 
@@ -58,7 +59,7 @@ export class UserService {
         const user = await this.userRepository.findOne(userId);
         await this.userRepository.remove(user);
         return {
-            userId,
+            message: 'User deleted ' + userId + ' deleted successfully',
         }
     }
 
@@ -70,8 +71,17 @@ export class UserService {
         return this.userRepository.findOne(id);
     }
 
-    getRoleById(roleId: number): Promise<Role> {
+    async getRoleById(roleId: number): Promise<Role> {
         return this.roleService.getRoleById(roleId);
+    }
+
+    async verifyUser(user: JWTPayload): Promise<User> {
+        const userToVerify = await this.userRepository.findOne(user.id);
+        if (userToVerify) {
+            userToVerify.isVerified = true;
+            await this.userRepository.save(userToVerify);
+        }
+        return userToVerify;
     }
 
     async usersPagination(

@@ -37,6 +37,10 @@ export class User extends Node {
     @Column({nullable: true})
     avatar?: string;
 
+    @Field(() => Boolean)
+    @Column({default: false})
+    isVerified: boolean;
+
     @Column()
     @Field(() => Int)
     roleId: number;

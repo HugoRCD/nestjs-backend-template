@@ -10,6 +10,7 @@ export interface JWTPayload {
     username: string;
     firstname: string;
     lastname: string;
+    role: number;
 }
 
 @Injectable()
@@ -36,9 +37,16 @@ if (user && await this.userService.deHashPassword(password, user.password)) {
             username: user.username,
             firstname: user.firstname,
             lastname: user.lastname,
+            role: user.roleId,
         };
         return {
             accessToken: this.jwtService.sign(payload),
         };
+    }
+
+    async forgotPassword(login: string) {
+        const user = await this.userService.userGetByLogin(login);
+        const token = this.jwtService.sign({id: user.id});
+        //TODO: send email with token
     }
 }
