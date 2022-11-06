@@ -21,14 +21,14 @@ export class AuthService {
     ) {
     }
 
-  async validateUser(login: string, password: string): Promise<any> {
-    const user = await this.userService.userGetByLogin(login);
-if (user && await this.userService.deHashPassword(password, user.password)) {
-      const { password, ...result } = user;
-      return result;
+    async validateUser(login: string, password: string): Promise<any> {
+        const user = await this.userService.userGetByLogin(login);
+        if (user && await this.userService.deHashPassword(password, user.password)) {
+            const {password, ...result} = user;
+            return result;
+        }
+        return null;
     }
-    return null;
-  }
 
     async login(user: User): Promise<AuthLoginOutput> {
         const payload: JWTPayload = {

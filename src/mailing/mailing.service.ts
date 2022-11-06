@@ -9,15 +9,13 @@ export class MailingService {
     ) {
     }
 
-    public sendMail(user: User, template: string, subject: string): void {
+    public sendMail(user: User, template: string, subject: string, variables: any): void {
         this.mailerService
             .sendMail({
                 to: user.email,
                 subject: subject,
                 template: template,
-                context: {
-                    username: user.firstname + ' ' + user.lastname,
-                },
+                context: variables,
             })
             .then(() => {
             })

@@ -41,6 +41,10 @@ export class User extends Node {
     @Column({default: false})
     isVerified: boolean;
 
+    @Field(() => String)
+    @Column({nullable: true, length: 600})
+    token: string;
+
     @Column()
     @Field(() => Int)
     roleId: number;

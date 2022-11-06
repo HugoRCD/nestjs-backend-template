@@ -11,6 +11,7 @@ import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
 import {DeleteUserOutput} from "./dto/user-delete.input";
 import {JWTPayload} from "../auth/auth.service";
+import {AuthLoginOutput} from "../auth/dto/auth-login.dto";
 
 const bcrypt = require('bcrypt');
 
@@ -37,7 +38,10 @@ export class UserService {
         input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
         await user.save();
-        this.MailingService.sendMail(user, 'welcome', 'Welcome !!!');
+        this.MailingService.sendMail(user, 'welcome', 'Welcome !!!',
+            {
+                username: user.username + ' ' + user.lastname,
+            });
         return {
             user,
         };
@@ -82,6 +86,12 @@ export class UserService {
             await this.userRepository.save(userToVerify);
         }
         return userToVerify;
+    }
+
+    async insertToken(user: number, token: string) {
+        const userToInsert = await this.userRepository.findOne(user);
+        userToInsert.token = token;
+        await this.userRepository.save(userToInsert);
     }
 
     async usersPagination(

@@ -55,6 +55,7 @@ type User {
   telephone: String!
   avatar: String
   isVerified: Boolean!
+  token: String!
   roleId: Int!
   role: Role!
 }
@@ -119,6 +120,7 @@ type Mutation {
   updateUser(userId: ID!, input: UpdateUserInput!): UpdateUserOutput!
   deleteUser(userId: ID!): DeleteUserOutput!
   verifyUser: User!
+  insertToken: User!
   createRole(createRoleInput: CreateRoleInput!): CreateRoleOutput!
 }
 

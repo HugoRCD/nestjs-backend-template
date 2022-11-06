@@ -40,4 +40,10 @@ export class UserMutationsResolver {
     async verifyUser(@CurrentUser() user: JWTPayload) {
         return this.userService.verifyUser(user);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Mutation(() => User)
+    async insertToken(userId: User['id'], token: string) {
+        return this.userService.insertToken(userId, token);
+    }
 }
