@@ -1,13 +1,11 @@
 import {
     createParamDecorator,
     ExecutionContext,
-    Injectable, SetMetadata,
+    Injectable,
 } from '@nestjs/common';
 import {Reflector} from '@nestjs/core';
 import {GqlExecutionContext} from '@nestjs/graphql';
 import {AuthGuard} from '@nestjs/passport';
-import {Role} from "../../role/entities/role.entity";
-import {User} from "../../user/entities/user.entity";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

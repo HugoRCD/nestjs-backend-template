@@ -11,7 +11,6 @@ import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
 import {DeleteUserOutput} from "./dto/user-delete.input";
 import {JWTPayload} from "../auth/auth.service";
-import {AuthLoginOutput} from "../auth/dto/auth-login.dto";
 
 const bcrypt = require('bcrypt');
 
