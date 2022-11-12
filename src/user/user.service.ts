@@ -5,8 +5,6 @@ import {CreateUserInput, CreateUserOutput} from './dto/user-create.input';
 import {User} from './entities/user.entity';
 import {SortDirection} from "../pagination/dto/pagination.dto";
 import {UsersPagination, UsersPaginationArgs} from "./dto/user-pagination.dto";
-import {Role} from "../role/entities/role.entity";
-import {RoleService} from "../role/role.service";
 import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
 import {DeleteUserOutput} from "./dto/user-delete.input";
@@ -19,7 +17,6 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
-        private roleService: RoleService,
         private MailingService: MailingService,
     ) {
     }
@@ -72,10 +69,6 @@ export class UserService {
 
     async getUserById(id: number): Promise<User> {
         return this.userRepository.findOne(id);
-    }
-
-    async getRoleById(roleId: number): Promise<Role> {
-        return this.roleService.getRoleById(roleId);
     }
 
     async verifyUser(user: JWTPayload): Promise<User> {

@@ -1,7 +1,7 @@
 import {Field, Int, ObjectType} from '@nestjs/graphql';
 import {Node} from 'src/pagination/entities/node.entity';
-import {Column, Entity, JoinColumn, ManyToOne, RelationId} from 'typeorm';
-import {Role} from "../../role/entities/role.entity";
+import {Column, Entity} from 'typeorm';
+import {Role} from "../../auth/decorators/role.enum";
 
 @Entity()
 @ObjectType()
@@ -33,6 +33,10 @@ export class User extends Node {
     @Column()
     password: string;
 
+    @Field(() => Int)
+    @Column({nullable: false, default: Role.USER})
+    role: number;
+
     @Field(() => String, {nullable: true})
     @Column({nullable: true})
     avatar?: string;
@@ -44,13 +48,4 @@ export class User extends Node {
     @Field(() => String)
     @Column({nullable: true, length: 600})
     token: string;
-
-    @Column()
-    @Field(() => Int)
-    roleId: number;
-
-    @ManyToOne(() => Role, role => role.users)
-    @JoinColumn()
-    @Field(() => Role)
-    role: Role;
 }

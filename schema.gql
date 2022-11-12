@@ -18,26 +18,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Role {
-  """Primary Key"""
-  id: Int!
-
-  """Creation date"""
-  createdAt: DateTime!
-
-  """Last update date"""
-  updatedAt: DateTime!
-
-  """Role name"""
-  name: String!
-
-  """Role description"""
-  description: String!
-
-  """Users with this role"""
-  users: [User!]
-}
-
 type User {
   """Primary Key"""
   id: Int!
@@ -53,11 +33,10 @@ type User {
   birthdate: DateTime!
   email: String!
   telephone: String!
-  avatar: String
+    role: Int!
+    avatar: String
   isVerified: Boolean!
   token: String!
-  roleId: Int!
-  role: Role!
 }
 
 type CreateUserOutput {
@@ -77,15 +56,6 @@ type UsersPagination {
   nodes: [User!]!
 }
 
-type CreateRoleOutput {
-  role: Role!
-}
-
-type RolesPagination {
-  totalCount: Float!
-  nodes: [Role!]!
-}
-
 type AuthLoginOutput {
   accessToken: String!
 }
@@ -94,9 +64,6 @@ type Query {
   sayHello: String!
   usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
   getUserById(id: Float!): User!
-  rolesPagination(skip: Int!, take: Int!, sortBy: RolesPaginationSortBy): RolesPagination!
-  getAllRoles: [Role!]!
-  role(id: Int!): Role!
 }
 
 input UsersPaginationSortBy {
@@ -109,11 +76,6 @@ enum SortDirection {
   DESC
 }
 
-input RolesPaginationSortBy {
-  createdAt: SortDirection
-  name: SortDirection
-}
-
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   createUser(createUserInput: CreateUserInput!): CreateUserOutput!
@@ -121,7 +83,6 @@ type Mutation {
   deleteUser(userId: ID!): DeleteUserOutput!
   verifyUser: User!
   insertToken: User!
-  createRole(createRoleInput: CreateRoleInput!): CreateRoleOutput!
 }
 
 input CreateUserInput {
@@ -129,9 +90,9 @@ input CreateUserInput {
   firstname: String!
   lastname: String!
   email: String!
-  password: String!
-  roleId: Int!
-  avatar: String
+    password: String!
+    role: Int!
+    avatar: String
   telephone: String!
   birthdate: DateTime!
 }
@@ -141,14 +102,9 @@ input UpdateUserInput {
   firstname: String!
   lastname: String!
   email: String!
-  password: String!
-  roleId: Int!
-  avatar: String
+    password: String!
+    role: Int!
+    avatar: String
   telephone: String!
   birthdate: DateTime!
-}
-
-input CreateRoleInput {
-  name: String!
-  description: String!
 }

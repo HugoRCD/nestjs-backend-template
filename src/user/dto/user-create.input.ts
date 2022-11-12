@@ -24,7 +24,7 @@ export class CreateUserInput {
     password: string;
 
     @Field(() => Int)
-    roleId: number;
+    role: number;
 
     @Field(() => String, {nullable: true})
     avatar?: string;

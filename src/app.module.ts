@@ -9,7 +9,6 @@ import {join} from 'path';
 import {AppResolver} from './app.resolver';
 import {AuthModule} from './auth/auth.module';
 import {UserModule} from './user/user.module';
-import {RoleModule} from './role/role.module';
 import {MailerModule} from "@nestjs-modules/mailer";
 import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
@@ -71,7 +70,6 @@ const domains = ['http://localhost:8080', 'http://localhost:3000'];
         }),
         AuthModule,
         UserModule,
-        RoleModule,
         MailingModule
     ],
     controllers: [AppController],
