@@ -33,8 +33,8 @@ type User {
   birthdate: DateTime!
   email: String!
   telephone: String!
-    role: Int!
-    avatar: String
+  role: Int!
+  avatar: String
   isVerified: Boolean!
   token: String!
 }
@@ -90,9 +90,9 @@ input CreateUserInput {
   firstname: String!
   lastname: String!
   email: String!
-    password: String!
-    role: Int!
-    avatar: String
+  password: String!
+  role: Int!
+  avatar: String
   telephone: String!
   birthdate: DateTime!
 }
@@ -102,9 +102,9 @@ input UpdateUserInput {
   firstname: String!
   lastname: String!
   email: String!
-    password: String!
-    role: Int!
-    avatar: String
+  password: String!
+  role: Int!
+  avatar: String
   telephone: String!
   birthdate: DateTime!
 }
