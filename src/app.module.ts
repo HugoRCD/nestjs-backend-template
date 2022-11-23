@@ -32,13 +32,15 @@ const domains = ['http://localhost:8080', 'http://localhost:3000'];
             },
         }),
         MailerModule.forRootAsync({
-            useFactory: () => ({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
                 transport: {
-                    host: 'smtp.gmail.com',
-                    port: 587,
+                    host: configService.get('MAIL_HOST'),
+                    port: configService.get('MAIL_PORT'),
                     auth: {
-                        user: 'contact@maisonhochard.com',
-                        pass: 'zzoplsuvngtsntzt', //TODO : use env variable
+                        user: configService.get('MAIL_USER'),
+                        pass: configService.get('MAIL_PASSWORD'),
                     }
                 },
                 defaults: {
