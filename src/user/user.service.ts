@@ -9,6 +9,7 @@ import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput, UpdateUserOutput} from "./dto/user-update.input";
 import {DeleteUserOutput} from "./dto/user-delete.input";
 import {JWTPayload} from "../auth/auth.service";
+import {VerifCode} from "./entities/verif-code.entity";
 
 const bcrypt = require('bcrypt');
 
@@ -17,6 +18,8 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(VerifCode)
+        private verifCodeRepository: Repository<VerifCode>,
         private MailingService: MailingService,
     ) {
     }
@@ -30,12 +33,23 @@ export class UserService {
         return bcrypt.compare(passwordToDeHash, passwordHash);
     }
 
+    async createVerificationCode(email: string): Promise<VerifCode> {
+        const verif_code = new VerifCode();
+        verif_code.email = email;
+        verif_code.code = Math.floor(100000 + Math.random() * 900000).toString();
+        const verifCode = this.verifCodeRepository.create(verif_code);
+        await this.verifCodeRepository.save(verifCode);
+        return verif_code;
+    }
+
     async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
         input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
+        const verifCode = await this.createVerificationCode(input.email);
         this.MailingService.sendMail(user, 'welcome', 'Welcome !!!',
             {
                 username: user.username + ' ' + user.lastname,
+                code: verifCode.code,
             });
         await user.save();
         return {
@@ -71,13 +85,19 @@ export class UserService {
         return this.userRepository.findOne(id);
     }
 
-    async verifyUser(user: JWTPayload): Promise<User> {
+    async verifyUser(user: JWTPayload, code: string): Promise<String> {
         const userToVerify = await this.userRepository.findOne(user.id);
-        if (userToVerify) {
+        if (userToVerify === undefined) {
+            return 'User not found';
+        }
+        const verifCode = await this.verifCodeRepository.findOne({where: {email: userToVerify.email}});
+        if (verifCode.code === code) {
             userToVerify.isVerified = true;
             await this.userRepository.save(userToVerify);
+            return 'User verified successfully';
+        } else {
+            return 'User verification failed';
         }
-        return userToVerify;
     }
 
     async insertToken(user: number, token: string) {

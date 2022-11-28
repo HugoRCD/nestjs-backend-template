@@ -41,9 +41,9 @@ export class UserMutationsResolver {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Mutation(() => User)
-    async verifyUser(@CurrentUser() user: JWTPayload) {
-        return this.userService.verifyUser(user);
+    @Mutation(() => String)
+    async verifyUser(@CurrentUser() user: JWTPayload, @Args('code') code: string) {
+        return this.userService.verifyUser(user, code);
     }
 
     @UseGuards(JwtAuthGuard)

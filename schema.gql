@@ -81,7 +81,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): CreateUserOutput!
   updateUser(userId: ID!, input: UpdateUserInput!): UpdateUserOutput!
   deleteUser(userId: ID!): DeleteUserOutput!
-  verifyUser: User!
+  verifyUser(code: String!): String!
   insertToken: User!
 }
 

@@ -5,9 +5,10 @@ import {UserMutationsResolver} from './resolvers/user.mutations.resolver';
 import {UserService} from './user.service';
 import {UserQueriesResolver} from "./resolvers/user.queries.resolver";
 import {MailingModule} from "../mailing/mailing.module";
+import {VerifCode} from "./entities/verif-code.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User]), forwardRef(() => MailingModule)],
+    imports: [TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([VerifCode]), forwardRef(() => MailingModule)],
     providers: [
         UserService,
         UserMutationsResolver,
