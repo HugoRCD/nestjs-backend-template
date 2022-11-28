@@ -1,5 +1,6 @@
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo';
 import {Module} from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import {ConfigModule, ConfigService} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -12,12 +13,14 @@ import {UserModule} from './user/user.module';
 import {MailerModule} from "@nestjs-modules/mailer";
 import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
+import {CronModule} from "./cron/cron.module";
 
 const domains = ['http://localhost:8080', 'http://localhost:3000'];
 
 @Module({
     imports: [
         ConfigModule.forRoot(),
+        ScheduleModule.forRoot(),
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
             autoSchemaFile: 'schema.gql',
@@ -72,7 +75,8 @@ const domains = ['http://localhost:8080', 'http://localhost:3000'];
         }),
         AuthModule,
         UserModule,
-        MailingModule
+        MailingModule,
+        CronModule
     ],
     controllers: [AppController],
     providers: [AppService, AppResolver],
