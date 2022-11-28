@@ -91,9 +91,13 @@ export class UserService {
             return 'User not found';
         }
         const verifCode = await this.verifCodeRepository.findOne({where: {email: userToVerify.email}});
+        if (verifCode === undefined) {
+            return 'Verification code not found';
+        }
         if (verifCode.code === code) {
             userToVerify.isVerified = true;
             await this.userRepository.save(userToVerify);
+            await this.verifCodeRepository.remove(verifCode);
             return 'User verified successfully';
         } else {
             return 'User verification failed';
