@@ -10,6 +10,7 @@ import {JWTPayload} from "../../auth/auth.service";
 import {RolesGuard} from "../../auth/guards/roles.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/decorators/role.enum";
+import {VerifCode} from "../entities/verif-code.entity";
 
 @Resolver(User)
 export class UserMutationsResolver {
@@ -44,6 +45,12 @@ export class UserMutationsResolver {
     @Mutation(() => String)
     async verifyUser(@CurrentUser() user: JWTPayload, @Args('code') code: string) {
         return this.userService.verifyUser(user, code);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Mutation(() => VerifCode)
+    async getVerificationCode(@Args('email') email: string) {
+        return this.userService.createVerificationCode(email);
     }
 
     @UseGuards(JwtAuthGuard)
