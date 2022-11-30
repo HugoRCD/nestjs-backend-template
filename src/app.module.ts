@@ -15,7 +15,12 @@ import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
 import {CronModule} from "./cron/cron.module";
 
-const domains = ['http://localhost:8080', 'http://localhost:3000'];
+const domains = ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:3000'];
+
+const frontendUrl = process.env.FRONTEND_URL;
+if (frontendUrl) {
+    domains.push(frontendUrl);
+}
 
 @Module({
     imports: [

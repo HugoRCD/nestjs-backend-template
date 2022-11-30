@@ -71,7 +71,8 @@ type UsersPagination {
 }
 
 type AuthLoginOutput {
-  accessToken: String!
+  token: String!
+  user: User!
 }
 
 type Query {

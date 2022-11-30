@@ -20,8 +20,11 @@ export class AuthMutationsResolver {
       @Args('username') _username: string,
       @Args('password') _password: string,
   ) {
-    const token = await this.authService.login(req.user);
-    await this.userService.insertToken(req.user.id, token.accessToken);
-    return token;
+    const login_response = await this.authService.login(req.user);
+    await this.userService.insertToken(req.user.id, login_response.token);
+    return {
+      token: login_response.token,
+      user: login_response.user,
+    }
   }
 }
