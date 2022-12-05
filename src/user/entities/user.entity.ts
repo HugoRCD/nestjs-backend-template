@@ -34,7 +34,7 @@ export class User extends Node {
     password: string;
 
     @Field(() => Int)
-    @Column({nullable: false, default: Role.USER})
+    @Column({default: Role.USER})
     role: number;
 
     @Field(() => String, {nullable: true})

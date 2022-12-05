@@ -8,7 +8,11 @@ import {MailingModule} from "../mailing/mailing.module";
 import {VerifCode} from "./entities/verif-code.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([VerifCode]), forwardRef(() => MailingModule)],
+    imports: [
+        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([VerifCode]),
+        forwardRef(() => MailingModule),
+    ],
     providers: [
         UserService,
         UserMutationsResolver,

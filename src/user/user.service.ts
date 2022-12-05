@@ -52,7 +52,9 @@ export class UserService {
                 code: verifCode.code,
             });
         await user.save();
+        const token = "";
         return {
+            token,
             user,
         };
     }
