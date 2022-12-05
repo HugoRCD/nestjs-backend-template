@@ -3,6 +3,7 @@ import {JwtService} from '@nestjs/jwt';
 import {User} from 'src/user/entities/user.entity';
 import {UserService} from 'src/user/user.service';
 import {AuthLoginOutput} from './dto/auth-login.dto';
+import {CreateUserInput} from "../user/dto/user-create.input";
 
 export interface JWTPayload {
     id: number;
@@ -43,6 +44,12 @@ export class AuthService {
             token: this.jwtService.sign(payload),
             user: user,
         };
+    }
+
+    async signup(createUserInput: CreateUserInput): Promise<AuthLoginOutput> {
+        const userCreated = await this.userService.createUser(createUserInput);
+        const {token, user: user} = await this.login(userCreated.user);
+        return {token, user};
     }
 
     async forgotPassword(login: string) {

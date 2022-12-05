@@ -40,7 +40,6 @@ type User {
 }
 
 type CreateUserOutput {
-  token: String!
   user: User!
 }
 
@@ -94,6 +93,7 @@ enum SortDirection {
 
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
+  authSignup(user: CreateUserInput!): AuthLoginOutput!
   createUser(createUserInput: CreateUserInput!): CreateUserOutput!
   updateUser(userId: ID!, input: UpdateUserInput!): UpdateUserOutput!
   deleteUser(userId: ID!): DeleteUserOutput!

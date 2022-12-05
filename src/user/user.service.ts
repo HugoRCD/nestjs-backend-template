@@ -52,11 +52,9 @@ export class UserService {
                 code: verifCode.code,
             });
         await user.save();
-        const token = "";
         return {
-            token,
             user,
-        };
+        }
     }
 
     async updateUser(userId: User['id'], input: UpdateUserInput): Promise<UpdateUserOutput> {

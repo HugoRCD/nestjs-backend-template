@@ -40,9 +40,6 @@ export class CreateUserInput {
 
 @ObjectType()
 export class CreateUserOutput {
-    @Field(() => String)
-    token: string;
-
     @Field(() => User)
     user: User;
 }
