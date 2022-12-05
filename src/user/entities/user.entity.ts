@@ -33,7 +33,7 @@ export class User extends Node {
     @Column()
     password: string;
 
-    @Field(() => Int)
+    @Field(() => Int, {defaultValue: Role.USER})
     @Column({default: Role.USER})
     role: number;
 
