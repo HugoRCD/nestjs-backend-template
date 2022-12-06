@@ -92,22 +92,22 @@ export class UserService {
         return this.userRepository.findOne(id);
     }
 
-    async verifyUser(user: JWTPayload, code: string): Promise<String> {
+    async verifyUser(user: JWTPayload, code: string): Promise<User> {
         const userToVerify = await this.userRepository.findOne(user.id);
         if (userToVerify === undefined) {
-            return 'error_user_not_found';
+            return null;
         }
-        const verifCode = await this.verifCodeRepository.findOne({where: {email: userToVerify.email}});
+        const verifCode = await this.verifCodeRepository.findOne({where: {email: userToVerify.email}}); //TODO: search for code not email
         if (verifCode === undefined) {
-            return 'error_code_not_found';
+            return null;
         }
         if (verifCode.code === code) {
             userToVerify.isVerified = true;
             await this.userRepository.save(userToVerify);
             await this.verifCodeRepository.remove(verifCode);
-            return 'success';
+            return userToVerify;
         } else {
-            return 'error_code_not_valid';
+            return null;
         }
     }
 
