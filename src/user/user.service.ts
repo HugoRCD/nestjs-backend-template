@@ -39,6 +39,13 @@ export class UserService {
         verif_code.code = Math.floor(100000 + Math.random() * 900000).toString();
         const verifCode = this.verifCodeRepository.create(verif_code);
         await this.verifCodeRepository.save(verifCode);
+        const user = await this.userRepository.findOne({where: {email: email}});
+        this.MailingService.sendMail(user, 'verifCode', 'Verification code',
+            {
+                username: user.username,
+                code: verifCode.code,
+            }
+        );
         return verif_code;
     }
 
