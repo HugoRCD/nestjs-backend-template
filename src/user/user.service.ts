@@ -52,13 +52,13 @@ export class UserService {
     async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
         input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
+        await user.save();
         const verifCode = await this.createVerificationCode(input.email);
         this.MailingService.sendMail(user, 'welcome', 'Welcome !!!',
             {
                 username: user.username,
                 code: verifCode.code,
             });
-        await user.save();
         return {
             user,
         }
