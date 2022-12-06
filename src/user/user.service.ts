@@ -55,7 +55,7 @@ export class UserService {
         const verifCode = await this.createVerificationCode(input.email);
         this.MailingService.sendMail(user, 'welcome', 'Welcome !!!',
             {
-                username: user.username + ' ' + user.lastname,
+                username: user.username,
                 code: verifCode.code,
             });
         await user.save();
