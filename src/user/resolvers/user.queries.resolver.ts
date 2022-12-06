@@ -8,13 +8,14 @@ import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/decorators/role.enum";
 import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
 
+@UseGuards(JwtAuthGuard)
 @Resolver(User)
 export class UserQueriesResolver {
     constructor(private readonly userService: UserService) {
     }
 
     @Roles(Role.ADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(RolesGuard)
     @Query(() => UsersPagination)
     async usersPagination(@Args() args: UsersPaginationArgs) {
         return this.userService.usersPagination(args);

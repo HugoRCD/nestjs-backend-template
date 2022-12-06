@@ -11,19 +11,22 @@ import {RolesGuard} from "../../auth/guards/roles.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/decorators/role.enum";
 import {VerifCode} from "../entities/verif-code.entity";
+import {Public} from "../../auth/decorators/public.decorator";
 
+@UseGuards(JwtAuthGuard)
 @Resolver(User)
 export class UserMutationsResolver {
     constructor(private readonly userService: UserService) {
     }
 
+    @Public()
     @Mutation(() => CreateUserOutput)
     async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
         return this.userService.createUser(createUserInput);
     }
 
     @Roles(Role.ADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(RolesGuard)
     @Mutation(() => UpdateUserOutput)
     async updateUser(
         @Args({name: 'userId', type: () => ID}) userId: User['id'], //TODO: Insert only the to change fields
@@ -33,7 +36,6 @@ export class UserMutationsResolver {
     }
 
     @Roles(Role.ADMIN)
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => DeleteUserOutput)
     async deleteUser(
         @Args({name: 'userId', type: () => ID}) userId: User['id'],
@@ -41,19 +43,16 @@ export class UserMutationsResolver {
         return this.userService.deleteUser(userId);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => User)
     async verifyUser(@CurrentUser() user: JWTPayload, @Args('code') code: string) {
         return this.userService.verifyUser(user, code);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => VerifCode)
     async getVerificationCode(@Args('email') email: string) {
-        return this.userService.createVerificationCode(email);
+        return this.userService.createVerificationCode(email, true);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Mutation(() => User)
     async insertToken(userId: User['id'], token: string) {
         return this.userService.insertToken(userId, token);

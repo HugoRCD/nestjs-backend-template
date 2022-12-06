@@ -33,27 +33,11 @@ export class UserService {
         return bcrypt.compare(passwordToDeHash, passwordHash);
     }
 
-    async createVerificationCode(email: string): Promise<VerifCode> {
-        const verif_code = new VerifCode();
-        verif_code.email = email;
-        verif_code.code = Math.floor(100000 + Math.random() * 900000).toString();
-        const verifCode = this.verifCodeRepository.create(verif_code);
-        await this.verifCodeRepository.save(verifCode);
-        const user = await this.userRepository.findOne({where: {email: email}});
-        this.MailingService.sendMail(user, 'verifCode', 'Verification code',
-            {
-                username: user.username,
-                code: verifCode.code,
-            }
-        );
-        return verif_code;
-    }
-
     async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
         input.password = await this.hashPassword(input.password);
         const user = this.userRepository.create(input);
         await user.save();
-        const verifCode = await this.createVerificationCode(input.email);
+        const verifCode = await this.createVerificationCode(input.email, false);
         this.MailingService.sendMail(user, 'welcome', 'Welcome !!!',
             {
                 username: user.username,
@@ -92,23 +76,37 @@ export class UserService {
         return this.userRepository.findOne(id);
     }
 
+    async createVerificationCode(email: string, sendMail = false): Promise<VerifCode> {
+        const verif_code = new VerifCode();
+        verif_code.email = email;
+        verif_code.code = Math.floor(100000 + Math.random() * 900000).toString();
+        const verifCode = this.verifCodeRepository.create(verif_code);
+        await this.verifCodeRepository.save(verifCode);
+        const user = await this.userRepository.findOne({where: {email: email}});
+        if (sendMail) {
+            this.MailingService.sendMail(user, 'verifCode', 'Verification code',
+                {
+                    username: user.username,
+                    code: verifCode.code,
+                }
+            );
+        }
+        return verif_code;
+    }
+
     async verifyUser(user: JWTPayload, code: string): Promise<User> {
         const userToVerify = await this.userRepository.findOne(user.id);
-        if (userToVerify === undefined) {
-            return null;
-        }
-        const verifCode = await this.verifCodeRepository.findOne({where: {email: userToVerify.email}}); //TODO: search for code not email
-        if (verifCode === undefined) {
-            return null;
-        }
+        const verifCode = await this.verifCodeRepository.findOne({where: {code: code, email: userToVerify.email}});
+        console.log(verifCode);
+        console.log(userToVerify.email);
         if (verifCode.code === code) {
             userToVerify.isVerified = true;
             await this.userRepository.save(userToVerify);
             await this.verifCodeRepository.remove(verifCode);
+            await this.verifCodeRepository.delete({email: userToVerify.email});
             return userToVerify;
-        } else {
-            return null;
         }
+        await this.verifCodeRepository.delete({email: userToVerify.email});
     }
 
     async insertToken(user: number, token: string) {
