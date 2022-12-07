@@ -1,12 +1,5 @@
-import {
-  ArgsType,
-  Field,
-  InputType,
-  Int,
-  InterfaceType,
-  registerEnumType,
-} from '@nestjs/graphql';
-import { Node } from '../entities/node.entity';
+import {ArgsType, Field, InputType, Int, InterfaceType, registerEnumType,} from "@nestjs/graphql";
+import {Node} from "../entities/node.entity";
 
 export enum SortDirection {
   ASC,
@@ -14,31 +7,31 @@ export enum SortDirection {
 }
 
 registerEnumType(SortDirection, {
-  name: 'SortDirection',
+  name: "SortDirection",
 });
 
 @InputType()
 export class PaginationSortBy {
-  @Field(() => SortDirection, { nullable: true })
-  createdAt?: SortDirection;
+  @Field(() => SortDirection, {nullable: true})
+    createdAt?: SortDirection;
 }
 
 @ArgsType()
 export class PaginationArgs {
   @Field(() => Int)
-  skip: number;
+    skip: number;
 
   @Field(() => Int)
-  take: number;
+    take: number;
 
-  @Field(() => PaginationSortBy, { nullable: true })
-  sortBy?: PaginationSortBy;
+  @Field(() => PaginationSortBy, {nullable: true})
+    sortBy?: PaginationSortBy;
 }
 
 @InterfaceType()
 export abstract class Pagination<N extends Node = Node> {
   @Field()
-  totalCount: number;
+    totalCount: number;
 
   @Field(() => [Node])
   abstract nodes: N[];

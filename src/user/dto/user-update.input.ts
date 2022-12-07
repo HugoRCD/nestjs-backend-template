@@ -1,12 +1,13 @@
-import {Field, InputType, ObjectType} from '@nestjs/graphql';
-import { CreateUserInput } from './user-create.input';
+import {Field, InputType, ObjectType} from "@nestjs/graphql";
+import {CreateUserInput} from "./user-create.input";
 import {User} from "../entities/user.entity";
 
 @InputType()
-export class UpdateUserInput extends CreateUserInput {}
+export class UpdateUserInput extends CreateUserInput {
+}
 
 @ObjectType()
 export class UpdateUserOutput {
-    @Field(() => User)
+  @Field(() => User)
     user: User;
 }

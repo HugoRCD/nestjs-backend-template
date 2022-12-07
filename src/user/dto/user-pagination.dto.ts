@@ -1,26 +1,21 @@
-import { ArgsType, Field, InputType, ObjectType } from '@nestjs/graphql';
-import {
-  Pagination,
-  PaginationArgs,
-  PaginationSortBy,
-  SortDirection,
-} from 'src/pagination/dto/pagination.dto';
-import { User } from "../entities/user.entity";
+import {ArgsType, Field, InputType, ObjectType} from "@nestjs/graphql";
+import {Pagination, PaginationArgs, PaginationSortBy, SortDirection,} from "src/pagination/dto/pagination.dto";
+import {User} from "../entities/user.entity";
 
 @InputType()
 export class UsersPaginationSortBy extends PaginationSortBy {
-  @Field(() => SortDirection, { nullable: true })
-  username?: SortDirection;
+  @Field(() => SortDirection, {nullable: true})
+    username?: SortDirection;
 }
 
 @ArgsType()
 export class UsersPaginationArgs extends PaginationArgs {
-  @Field(() => UsersPaginationSortBy, { nullable: true })
-  sortBy?: UsersPaginationSortBy;
+  @Field(() => UsersPaginationSortBy, {nullable: true})
+    sortBy?: UsersPaginationSortBy;
 }
 
 @ObjectType()
 export class UsersPagination extends Pagination {
   @Field(() => [User])
-  nodes: User[];
+    nodes: User[];
 }

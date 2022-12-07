@@ -3,10 +3,9 @@ import {Injectable} from "@nestjs/common";
 
 @Injectable()
 export class CronService {
-    constructor() {
+  /*constructor() {
     }
-
-    /*@Cron(CronExpression.EVERY_5_SECONDS)
+     /*@Cron(CronExpression.EVERY_5_SECONDS)
     handleCron() {
         console.log('Called when the current second is 5');
     }*/

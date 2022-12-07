@@ -11,18 +11,18 @@ import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
 @UseGuards(JwtAuthGuard)
 @Resolver(User)
 export class UserQueriesResolver {
-    constructor(private readonly userService: UserService) {
-    }
+  constructor(private readonly userService: UserService) {
+  }
 
-    @Roles(Role.ADMIN)
-    @UseGuards(RolesGuard)
-    @Query(() => UsersPagination)
-    async usersPagination(@Args() args: UsersPaginationArgs) {
-        return this.userService.usersPagination(args);
-    }
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @Query(() => UsersPagination)
+  async usersPagination(@Args() args: UsersPaginationArgs) {
+    return this.userService.usersPagination(args);
+  }
 
-    @Query(() => User)
-    async getUserById(@Args('id') id: number) {
-        return this.userService.getUserById(id);
-    }
+  @Query(() => User)
+  async getUserById(@Args("id") id: number) {
+    return this.userService.getUserById(id);
+  }
 }

@@ -1,46 +1,46 @@
-import {Field, InputType, Int, ObjectType} from '@nestjs/graphql';
-import {User} from '../entities/user.entity';
+import {Field, InputType, Int, ObjectType} from "@nestjs/graphql";
+import {User} from "../entities/user.entity";
 import {IsAlpha, IsDate, IsEmail, IsNotEmpty, IsPhoneNumber} from "class-validator";
 import {Role} from "../../auth/decorators/role.enum";
 
 @InputType()
 export class CreateUserInput {
-    @Field(() => String)
+  @Field(() => String)
     username: string;
 
-    @IsAlpha()
-    @Field(() => String)
+  @IsAlpha()
+  @Field(() => String)
     firstname: string;
 
-    @IsAlpha()
-    @Field(() => String)
+  @IsAlpha()
+  @Field(() => String)
     lastname: string;
 
-    @IsEmail()
-    @Field(() => String)
+  @IsEmail()
+  @Field(() => String)
     email: string;
 
-    @IsNotEmpty()
-    @Field(() => String)
+  @IsNotEmpty()
+  @Field(() => String)
     password: string;
 
-    @Field(() => Int, {defaultValue: Role.USER})
+  @Field(() => Int, {defaultValue: Role.USER})
     role: number;
 
-    @Field(() => String, {nullable: true})
+  @Field(() => String, {nullable: true})
     avatar?: string;
 
-    @IsPhoneNumber('FR')
-    @Field(() => String)
+  @IsPhoneNumber("FR")
+  @Field(() => String)
     telephone: string;
 
-    @IsDate()
-    @Field(() => Date)
+  @IsDate()
+  @Field(() => Date)
     birthdate: Date;
 }
 
 @ObjectType()
 export class CreateUserOutput {
-    @Field(() => User)
+  @Field(() => User)
     user: User;
 }
