@@ -4,6 +4,7 @@ import {User} from "src/user/entities/user.entity";
 import {UserService} from "src/user/user.service";
 import {AuthLoginOutput} from "./dto/auth-login.dto";
 import {CreateUserInput} from "../user/dto/user-create.input";
+import {Utils} from "../user/utils/utils";
 
 export interface JWTPayload {
   id: number;
@@ -23,8 +24,8 @@ export class AuthService {
   }
 
   async validateUser(login: string, password: string): Promise<any> {
-    const user = await this.userService.userGetByLogin(login);
-    if (user && await this.userService.deHashPassword(password, user.password)) {
+    const user = await this.userService.getUserByLogin(login);
+    if (user && await Utils.deHashPassword(password, user.password)) {
       const {password, ...result} = user;
       return result;
     }
@@ -47,8 +48,8 @@ export class AuthService {
   }
 
   async signup(createUserInput: CreateUserInput): Promise<AuthLoginOutput> {
-    const userCreated = await this.userService.createUser(createUserInput);
-    const {token, user: user} = await this.login(userCreated.user);
+    const userCreated = await this.userService.create(createUserInput);
+    const {token, user: user} = await this.login(userCreated);
     return {token, user};
   }
 

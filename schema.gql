@@ -2,9 +2,37 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-interface Node {
+type User {
   """Primary Key"""
   id: Int!
+
+  """Username"""
+  username: String!
+
+  """Firstname"""
+  firstname: String!
+
+  """Lastname"""
+  lastname: String!
+
+  """Birthdate"""
+  birthdate: DateTime!
+
+  """Email"""
+  email: String!
+
+  """Phone number"""
+  phone: String!
+
+  """Role"""
+  role: Int!
+  avatar: String
+
+  """Is email verified"""
+  isVerified: Boolean!
+
+  """JWT token"""
+  token: String!
 
   """Creation date"""
   createdAt: DateTime!
@@ -17,35 +45,6 @@ interface Node {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-type User {
-  """Primary Key"""
-  id: Int!
-
-  """Creation date"""
-  createdAt: DateTime!
-
-  """Last update date"""
-  updatedAt: DateTime!
-  username: String!
-  firstname: String!
-  lastname: String!
-  birthdate: DateTime!
-  email: String!
-  telephone: String!
-  role: Int!
-  avatar: String
-  isVerified: Boolean!
-  token: String!
-}
-
-type CreateUserOutput {
-  user: User!
-}
-
-type UpdateUserOutput {
-  user: User!
-}
 
 type VerifCode {
   """Primary Key"""
@@ -65,11 +64,6 @@ type DeleteUserOutput {
   message: String!
 }
 
-type UsersPagination {
-  totalCount: Float!
-  nodes: [User!]!
-}
-
 type AuthLoginOutput {
   token: String!
   user: User!
@@ -77,26 +71,16 @@ type AuthLoginOutput {
 
 type Query {
   sayHello: String!
-  usersPagination(skip: Int!, take: Int!, sortBy: UsersPaginationSortBy): UsersPagination!
+  getAllUsers: [User!]!
   getUserById(id: Float!): User!
-}
-
-input UsersPaginationSortBy {
-  createdAt: SortDirection
-  username: SortDirection
-}
-
-enum SortDirection {
-  ASC
-  DESC
 }
 
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   authSignup(user: CreateUserInput!): AuthLoginOutput!
-  createUser(createUserInput: CreateUserInput!): CreateUserOutput!
-  updateUser(userId: ID!, input: UpdateUserInput!): UpdateUserOutput!
-  deleteUser(userId: ID!): DeleteUserOutput!
+  createUser(user: CreateUserInput!): User!
+  updateUser(user: UpdateUserInput!, id: Float!): User!
+  deleteUser(id: Float!): DeleteUserOutput!
   verifyUser(code: String!): User!
   getVerificationCode(email: String!): VerifCode!
   insertToken: User!
@@ -110,7 +94,7 @@ input CreateUserInput {
   password: String!
   role: Int = 0
   avatar: String
-  telephone: String!
+  phone: String!
   birthdate: DateTime!
 }
 
@@ -122,6 +106,6 @@ input UpdateUserInput {
   password: String!
   role: Int = 0
   avatar: String
-  telephone: String!
+  phone: String!
   birthdate: DateTime!
 }

@@ -1,6 +1,6 @@
-import {Args, ID, Mutation, Resolver} from "@nestjs/graphql";
-import {CreateUserInput, CreateUserOutput} from "../dto/user-create.input";
-import {UpdateUserInput, UpdateUserOutput} from "../dto/user-update.input";
+import {Args, Mutation, Resolver} from "@nestjs/graphql";
+import {CreateUserInput} from "../dto/user-create.input";
+import {UpdateUserInput} from "../dto/user-update.input";
 import {User} from "../entities/user.entity";
 import {UserService} from "../user.service";
 import {UseGuards} from "@nestjs/common";
@@ -20,32 +20,32 @@ export class UserMutationsResolver {
   }
 
   @Public()
-  @Mutation(() => CreateUserOutput)
-  async createUser(@Args("createUserInput") createUserInput: CreateUserInput) {
-    return this.userService.createUser(createUserInput);
+  @Mutation(() => User)
+  async createUser(@Args("user") user: CreateUserInput) {
+    return this.userService.create(user);
   }
 
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
-  @Mutation(() => UpdateUserOutput)
+  @Mutation(() => User)
   async updateUser(
-      @Args({name: "userId", type: () => ID}) userId: User["id"], //TODO: Insert only the to change fields
-      @Args("input") input: UpdateUserInput,
+      @Args("user") user: UpdateUserInput,
+      @Args("id") id: number,
   ) {
-    return this.userService.updateUser(userId, input);
+    return this.userService.update(user, id);
   }
 
   @Roles(Role.ADMIN)
   @Mutation(() => DeleteUserOutput)
   async deleteUser(
-      @Args({name: "userId", type: () => ID}) userId: User["id"],
+      @Args("id") id: number,
   ) {
-    return this.userService.deleteUser(userId);
+    return this.userService.delete(id);
   }
 
   @Mutation(() => User)
   async verifyUser(@CurrentUser() user: JWTPayload, @Args("code") code: string) {
-    return this.userService.verifyUser(user, code);
+    return this.userService.verify(user, code);
   }
 
   @Mutation(() => VerifCode)

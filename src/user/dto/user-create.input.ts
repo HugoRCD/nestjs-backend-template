@@ -1,5 +1,4 @@
-import {Field, InputType, Int, ObjectType} from "@nestjs/graphql";
-import {User} from "../entities/user.entity";
+import {Field, InputType, Int} from "@nestjs/graphql";
 import {IsAlpha, IsDate, IsEmail, IsNotEmpty, IsPhoneNumber} from "class-validator";
 import {Role} from "../../auth/decorators/role.enum";
 
@@ -32,15 +31,9 @@ export class CreateUserInput {
 
   @IsPhoneNumber("FR")
   @Field(() => String)
-    telephone: string;
+    phone: string;
 
   @IsDate()
   @Field(() => Date)
     birthdate: Date;
-}
-
-@ObjectType()
-export class CreateUserOutput {
-  @Field(() => User)
-    user: User;
 }

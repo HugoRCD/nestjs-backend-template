@@ -1,7 +1,6 @@
 import {Args, Query, Resolver} from "@nestjs/graphql";
 import {UserService} from "../user.service";
 import {User} from "../entities/user.entity";
-import {UsersPagination, UsersPaginationArgs} from "../dto/user-pagination.dto";
 import {UseGuards} from "@nestjs/common";
 import {RolesGuard} from "../../auth/guards/roles.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
@@ -16,9 +15,9 @@ export class UserQueriesResolver {
 
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
-  @Query(() => UsersPagination)
-  async usersPagination(@Args() args: UsersPaginationArgs) {
-    return this.userService.usersPagination(args);
+  @Query(() => [User])
+  async getAllUsers() {
+    return this.userService.getAllUsers();
   }
 
   @Query(() => User)

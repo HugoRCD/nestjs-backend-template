@@ -1,39 +1,42 @@
 import {Field, Int, ObjectType} from "@nestjs/graphql";
-import {Node} from "src/pagination/entities/node.entity";
-import {Column, Entity} from "typeorm";
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 import {Role} from "../../auth/decorators/role.enum";
 
 @Entity()
 @ObjectType()
-export class User extends Node {
-  @Field(() => String)
+export class User {
+  @PrimaryGeneratedColumn()
+  @Field(() => Int, {description: "Primary Key"})
+    id: number;
+
+  @Field(() => String, {description: "Username"})
   @Column({unique: true})
     username: string;
 
-  @Field(() => String)
+  @Field(() => String, {description: "Firstname"})
   @Column()
     firstname: string;
 
-  @Field(() => String)
+  @Field(() => String, {description: "Lastname"})
   @Column()
     lastname: string;
 
-  @Field(() => Date)
+  @Field(() => Date, {description: "Birthdate"})
   @Column()
     birthdate: Date;
 
-  @Field(() => String)
+  @Field(() => String, {description: "Email"})
   @Column({unique: true})
     email: string;
 
-  @Field(() => String)
+  @Field(() => String, {description: "Phone number"})
   @Column()
-    telephone: string;
+    phone: string;
 
   @Column()
     password: string;
 
-  @Field(() => Int, {defaultValue: Role.USER})
+  @Field(() => Int, {description: "Role", defaultValue: Role.USER})
   @Column({default: Role.USER})
     role: number;
 
@@ -41,11 +44,19 @@ export class User extends Node {
   @Column({nullable: true})
     avatar?: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, {description: "Is email verified", defaultValue: false})
   @Column({default: false})
     isVerified: boolean;
 
-  @Field(() => String)
+  @Field(() => String, {description: "JWT token"})
   @Column({nullable: true, length: 600})
     token: string;
+
+  @Field(() => Date, {description: "Creation date"})
+  @CreateDateColumn()
+    createdAt: Date;
+
+  @Field(() => Date, {description: "Last update date"})
+  @UpdateDateColumn()
+    updatedAt: Date;
 }
