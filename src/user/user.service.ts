@@ -22,7 +22,7 @@ export class UserService {
   }
 
   async create(user: CreateUserInput) {
-    if (await this.getUserByLogin(user.email)) {
+    if (await this.getUserByLogin(user.email) || await this.getUserByLogin(user.username) || await this.getUserByLogin(user.phone)) {
       throw new Error("User already exists");
     }
     const password = await Utils.hashPassword(user.password);
