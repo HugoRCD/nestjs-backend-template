@@ -43,12 +43,12 @@ export class UserService {
   async update(user: UpdateUserInput, id: number) {
     const userToUpdate = await this.userRepository.findOne(id);
     if (userToUpdate) {
-      console.log(userToUpdate);
       const password = await Utils.hashPassword(user.password);
-      return this.userRepository.update(id, {
+      await this.userRepository.update(id, {
         ...user,
         password,
       });
+      return await this.userRepository.findOne(id);
     }
     throw new Error("User not found");
   }

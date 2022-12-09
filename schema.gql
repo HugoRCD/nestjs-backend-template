@@ -92,7 +92,7 @@ input CreateUserInput {
   lastname: String!
   email: String!
   password: String!
-  role: Int = 0
+  role: Int
   avatar: String
   phone: String!
   birthdate: DateTime!
@@ -104,7 +104,7 @@ input UpdateUserInput {
   lastname: String!
   email: String!
   password: String!
-  role: Int = 0
+  role: Int
   avatar: String
   phone: String!
   birthdate: DateTime!
