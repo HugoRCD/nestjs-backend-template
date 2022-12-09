@@ -14,6 +14,7 @@ import {MailerModule} from "@nestjs-modules/mailer";
 import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
 import {CronModule} from "./cron/cron.module";
+import {TicketModule} from "./tickets/ticket.module";
 
 const domains = [
   "http://localhost:8080",
@@ -81,7 +82,8 @@ const domains = [
     AuthModule,
     UserModule,
     MailingModule,
-    CronModule
+    CronModule,
+    TicketModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

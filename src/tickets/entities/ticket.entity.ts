@@ -12,12 +12,12 @@ export class Ticket {
     id: number;
   
   @Field(() => String, {description: "Ticket name"})
-  @Column()
+  @Column({unique: true})
     name: string;
 
-  @Field(() => TicketType, {description: "Ticket type"})
-  @Column({type: "enum", enum: TicketType})
-    type: TicketType;
+  @Field(() => String, {description: "Ticket type"})
+  @Column({default: TicketType.INFO})
+    type: string;
   
   @Field(() => String, {description: "Ticket description"})
   @Column()
@@ -33,6 +33,10 @@ export class Ticket {
 
   @Column()
     ownerId: number;
+
+  @Field(() => String, {description: "User email"})
+  @Column()
+    email: string;
 
   @Field(() => Date, {description: "Creation date"})
   @CreateDateColumn()
