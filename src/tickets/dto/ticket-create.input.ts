@@ -7,7 +7,4 @@ export class CreateTicketInput {
 
   @Field(() => String, {description: "Ticket description"})
     description: string;
-
-  @Field(() => String, {description: "User email"})
-    email: string;
 }
