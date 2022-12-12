@@ -22,7 +22,7 @@ export class UserService {
 
   async create(user: CreateUserInput) {
     if (await this.getUserByLogin(user.email) || await this.getUserByLogin(user.username) || await this.getUserByLogin(user.phone)) {
-      throw new Error("User already exists");
+      throw new Error("user_already_exists");
     }
     const password = await Utils.hashPassword(user.password);
     const createdUser = this.userRepository.create({
@@ -49,7 +49,7 @@ export class UserService {
       });
       return await this.userRepository.findOne(id);
     }
-    throw new Error("User not found");
+    throw new Error("user_not_found");
   }
 
   async delete(id: number): Promise<string> {
