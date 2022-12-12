@@ -5,7 +5,6 @@ import {User} from "../entities/user.entity";
 import {UserService} from "../user.service";
 import {UseGuards} from "@nestjs/common";
 import {CurrentUser, JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
-import {DeleteUserOutput} from "../dto/user-delete.input";
 import {JWTPayload} from "../../auth/auth.service";
 import {RolesGuard} from "../../auth/guards/roles.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
@@ -36,7 +35,7 @@ export class UserMutationsResolver {
   }
 
   @Roles(Role.ADMIN)
-  @Mutation(() => DeleteUserOutput)
+  @Mutation(() => String)
   async deleteUser(
       @Args("id") id: number,
   ) {

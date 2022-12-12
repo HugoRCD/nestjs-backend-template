@@ -5,7 +5,6 @@ import {CreateUserInput} from "./dto/user-create.input";
 import {User} from "./entities/user.entity";
 import {MailingService} from "../mailing/mailing.service";
 import {UpdateUserInput} from "./dto/user-update.input";
-import {DeleteUserOutput} from "./dto/user-delete.input";
 import {JWTPayload} from "../auth/auth.service";
 import {VerifCode} from "./entities/verif-code.entity";
 import {Utils} from "./utils/utils";
@@ -53,12 +52,10 @@ export class UserService {
     throw new Error("User not found");
   }
 
-  async delete(id: number): Promise<DeleteUserOutput> {
+  async delete(id: number): Promise<string> {
     const user = await this.userRepository.findOne(id);
     await this.userRepository.remove(user);
-    return {
-      message: "User deleted " + id + " deleted successfully",
-    };
+    return "User deleted " + id + " deleted successfully";
   }
 
   async getUserByLogin(login: string): Promise<User> {
