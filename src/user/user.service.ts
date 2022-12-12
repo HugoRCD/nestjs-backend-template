@@ -94,7 +94,6 @@ export class UserService {
     if (verifCode.code === code) {
       userToVerify.isVerified = true;
       await this.userRepository.save(userToVerify);
-      await this.verifCodeRepository.remove(verifCode);
       await this.verifCodeRepository.delete({email: userToVerify.email});
       return userToVerify;
     }
