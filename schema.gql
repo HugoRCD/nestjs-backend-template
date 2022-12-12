@@ -31,8 +31,11 @@ type User {
   """Is email verified"""
   isVerified: Boolean!
 
-  """JWT token"""
-  token: String!
+  """JWT accessToken"""
+  accessToken: String!
+
+  """JWT refreshToken"""
+  refreshToken: String!
 
   """Creation date"""
   createdAt: DateTime!
@@ -60,12 +63,9 @@ type VerifCode {
   createdAt: DateTime!
 }
 
-type DeleteUserOutput {
-  message: String!
-}
-
 type AuthLoginOutput {
-  token: String!
+  accessToken: String!
+  refreshToken: String!
   user: User!
 }
 
@@ -111,10 +111,10 @@ type Mutation {
   authSignup(user: CreateUserInput!): AuthLoginOutput!
   createUser(user: CreateUserInput!): User!
   updateUser(user: UpdateUserInput!, id: Float!): User!
-  deleteUser(id: Float!): DeleteUserOutput!
+  deleteUser(id: Float!): String!
   verifyUser(code: String!): User!
   getVerificationCode(email: String!): VerifCode!
-  insertToken: User!
+  insertTokens: User!
   createTicket(ticket: CreateTicketInput!): Ticket!
   updateTicket(ticket: UpdateTicketInput!, id: Float!): Ticket!
   deleteTicket(id: Float!): Ticket!
@@ -150,9 +150,6 @@ input CreateTicketInput {
 
   """Ticket description"""
   description: String!
-
-  """User email"""
-  email: String!
 }
 
 input UpdateTicketInput {
@@ -161,7 +158,4 @@ input UpdateTicketInput {
 
   """Ticket description"""
   description: String!
-
-  """User email"""
-  email: String!
 }

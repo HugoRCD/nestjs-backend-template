@@ -100,9 +100,10 @@ export class UserService {
     await this.verifCodeRepository.delete({email: userToVerify.email});
   }
 
-  async insertToken(user: number, token: string) {
-    const userToInsert = await this.userRepository.findOne(user);
-    userToInsert.token = token;
+  async insertTokens(user_id: number, access_token: string, refresh_token: string) {
+    const userToInsert = await this.userRepository.findOne(user_id);
+    userToInsert.accessToken = access_token;
+    userToInsert.refreshToken = refresh_token;
     await this.userRepository.save(userToInsert);
   }
 }

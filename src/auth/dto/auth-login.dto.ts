@@ -4,7 +4,10 @@ import {User} from "../../user/entities/user.entity";
 @ObjectType()
 export class AuthLoginOutput {
   @Field(() => String)
-    token: string;
+    accessToken: string;
+
+  @Field(() => String)
+    refreshToken: string;
 
   @Field(() => User)
     user: User;

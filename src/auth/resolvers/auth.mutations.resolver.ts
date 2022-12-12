@@ -22,11 +22,8 @@ export class AuthMutationsResolver {
       @Args("password") _password: string,
   ) {
     const login_response = await this.authService.login(req.user);
-    await this.userService.insertToken(req.user.id, login_response.token);
-    return {
-      token: login_response.token,
-      user: login_response.user,
-    };
+    await this.userService.insertTokens(req.user.id, login_response.accessToken, login_response.refreshToken);
+    return login_response;
   }
 
   @Mutation(() => AuthLoginOutput)

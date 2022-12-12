@@ -6,9 +6,6 @@ import {UserService} from "../user.service";
 import {UseGuards} from "@nestjs/common";
 import {CurrentUser, JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
 import {JWTPayload} from "../../auth/auth.service";
-import {RolesGuard} from "../../auth/guards/roles.guard";
-import {Roles} from "../../auth/decorators/roles.decorator";
-import {Role} from "../../auth/decorators/role.enum";
 import {VerifCode} from "../entities/verif-code.entity";
 import {Public} from "../../auth/decorators/public.decorator";
 
@@ -24,8 +21,6 @@ export class UserMutationsResolver {
     return this.userService.create(user);
   }
 
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
   @Mutation(() => User)
   async updateUser(
       @Args("user") user: UpdateUserInput,
@@ -34,7 +29,6 @@ export class UserMutationsResolver {
     return this.userService.update(user, id);
   }
 
-  @Roles(Role.ADMIN)
   @Mutation(() => String)
   async deleteUser(
       @Args("id") id: number,
@@ -53,7 +47,7 @@ export class UserMutationsResolver {
   }
 
   @Mutation(() => User)
-  async insertToken(userId: User["id"], token: string) {
-    return this.userService.insertToken(userId, token);
+  async insertTokens(user_id: number, access_token: string, refresh_token: string) {
+    return this.userService.insertTokens(user_id, access_token, refresh_token);
   }
 }
