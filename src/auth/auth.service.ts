@@ -12,7 +12,6 @@ export interface JWTPayload {
   username: string;
   firstname: string;
   lastname: string;
-  role: number;
 }
 
 @Injectable()
@@ -39,7 +38,6 @@ export class AuthService {
       username: user.username,
       firstname: user.firstname,
       lastname: user.lastname,
-      role: user.role,
     };
     return {
       token: this.jwtService.sign(payload),
