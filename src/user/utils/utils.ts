@@ -1,12 +1,12 @@
 const bcrypt = require("bcrypt");
 
 export const Utils = {
-  async hashPassword(passwordToHash: string) {
+  async hash(ToHash: string) {
     const saltRounds = 10;
-    return bcrypt.hash(passwordToHash, saltRounds);
+    return bcrypt.hash(ToHash, saltRounds);
   },
 
-  async deHashPassword(passwordToDeHash: string, passwordHash: string) {
-    return bcrypt.compare(passwordToDeHash, passwordHash);
+  async deHash(ToDeHash: string, Hash: string) {
+    return bcrypt.compare(ToDeHash, Hash);
   }
 };

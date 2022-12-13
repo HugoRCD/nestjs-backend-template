@@ -31,9 +31,6 @@ type User {
   """Is email verified"""
   isVerified: Boolean!
 
-  """JWT accessToken"""
-  accessToken: String!
-
   """JWT refreshToken"""
   refreshToken: String!
 
@@ -109,12 +106,12 @@ type Query {
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   authSignup(user: CreateUserInput!): AuthLoginOutput!
+  RefreshToken(refreshToken: String!): AuthLoginOutput!
   createUser(user: CreateUserInput!): User!
   updateUser(user: UpdateUserInput!, id: Float!): User!
   deleteUser(id: Float!): String!
   verifyUser(code: String!): User!
   getVerificationCode(email: String!): VerifCode!
-  insertTokens: User!
   createTicket(ticket: CreateTicketInput!): Ticket!
   updateTicket(ticket: UpdateTicketInput!, id: Float!): Ticket!
   deleteTicket(id: Float!): Ticket!

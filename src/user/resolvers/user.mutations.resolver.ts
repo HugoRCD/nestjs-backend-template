@@ -4,12 +4,12 @@ import {UpdateUserInput} from "../dto/user-update.input";
 import {User} from "../entities/user.entity";
 import {UserService} from "../user.service";
 import {UseGuards} from "@nestjs/common";
-import {CurrentUser, JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {CurrentUser, JwtAtGuard} from "../../auth/guards/jwt-at.guard";
 import {JWTPayload} from "../../auth/auth.service";
 import {VerifCode} from "../entities/verif-code.entity";
 import {Public} from "../../auth/decorators/public.decorator";
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAtGuard)
 @Resolver(User)
 export class UserMutationsResolver {
   constructor(private readonly userService: UserService) {
@@ -44,10 +44,5 @@ export class UserMutationsResolver {
   @Mutation(() => VerifCode)
   async getVerificationCode(@Args("email") email: string) {
     return this.userService.createVerificationCode(email, true);
-  }
-
-  @Mutation(() => User)
-  async insertTokens(user_id: number, access_token: string, refresh_token: string) {
-    return this.userService.insertTokens(user_id, access_token, refresh_token);
   }
 }

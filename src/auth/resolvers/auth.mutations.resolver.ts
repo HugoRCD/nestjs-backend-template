@@ -5,6 +5,8 @@ import {AuthLoginOutput} from "../dto/auth-login.dto";
 import {LocalAuthGuard} from "../guards/local-auth.guard";
 import {UserService} from "../../user/user.service";
 import {CreateUserInput} from "../../user/dto/user-create.input";
+import {CurrentUser} from "../guards/jwt-at.guard";
+import {JwtRtGuard} from "../guards/jwt-rt.guard";
 
 @Resolver()
 export class AuthMutationsResolver {
@@ -22,7 +24,7 @@ export class AuthMutationsResolver {
       @Args("password") _password: string,
   ) {
     const login_response = await this.authService.login(req.user);
-    await this.userService.insertTokens(req.user.id, login_response.accessToken, login_response.refreshToken);
+    await this.userService.insertRefreshToken(req.user.id, login_response.refreshToken);
     return login_response;
   }
 
@@ -31,5 +33,14 @@ export class AuthMutationsResolver {
       @Args("user") user: CreateUserInput,
   ) {
     return await this.authService.signup(user);
+  }
+
+  @UseGuards(JwtRtGuard)
+  @Mutation(() => AuthLoginOutput)
+  async RefreshToken(
+      @CurrentUser() user,
+      @Args("refreshToken") refreshToken: string,
+  ) {
+    return await this.authService.refreshToken(user, refreshToken);
   }
 }

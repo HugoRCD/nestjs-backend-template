@@ -11,8 +11,6 @@ export interface JWTPayload {
   id: number;
   email: string;
   username: string;
-  firstname: string;
-  lastname: string;
 }
 
 @Injectable()
@@ -29,8 +27,6 @@ export class AuthService {
       id: user.id,
       email: user.email,
       username: user.username,
-      firstname: user.firstname,
-      lastname: user.lastname,
     };
     return this.jwtService.sign(payload, {
       secret: this.configService.get("ACCESS_TOKEN_SECRET"),
@@ -43,8 +39,6 @@ export class AuthService {
       id: user.id,
       email: user.email,
       username: user.username,
-      firstname: user.firstname,
-      lastname: user.lastname,
     };
     return this.jwtService.sign(payload, {
       secret: this.configService.get("REFRESH_TOKEN_SECRET"),
@@ -52,18 +46,18 @@ export class AuthService {
     });
   }
 
-  async refreshToken(refreshToken: string): Promise<AuthLoginOutput> {
-    const payload = this.jwtService.verify(refreshToken, {
-      secret: this.configService.get("REFRESH_TOKEN_SECRET"),
-    });
-    const user = await this.userService.getUserById(payload.id);
-    const {accessToken, refreshToken: newRefreshToken, user: newUser} = await this.login(user);
-    return {accessToken, refreshToken: newRefreshToken, user: newUser};
+  async refreshToken(user: User, refreshToken: string): Promise<AuthLoginOutput> {
+    const userToRefresh = await this.userService.getUserById(user.id);
+    const decodedRefreshToken = await Utils.deHash(refreshToken, userToRefresh.refreshToken);
+    if (decodedRefreshToken) {
+      const {accessToken, refreshToken, user} = await this.login(userToRefresh);
+      return {accessToken, refreshToken, user};
+    }
   }
 
   async validateUser(login: string, password: string): Promise<any> {
     const user = await this.userService.getUserByLogin(login);
-    if (user && await Utils.deHashPassword(password, user.password)) {
+    if (user && await Utils.deHash(password, user.password)) {
       const {password, ...result} = user;
       return result;
     }

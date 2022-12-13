@@ -5,10 +5,10 @@ import {MailingService} from "../mailing/mailing.service";
 import {Ticket} from "./entities/ticket.entity";
 import {CreateTicketInput} from "./dto/ticket-create.input";
 import {UpdateTicketInput} from "./dto/ticket-update.input";
-import {JwtAuthGuard} from "../auth/guards/jwt-auth.guard";
+import {JwtAtGuard} from "../auth/guards/jwt-at.guard";
 import {JWTPayload} from "../auth/auth.service";
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAtGuard)
 @Injectable()
 export class TicketService {
   constructor(

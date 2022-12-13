@@ -1,14 +1,14 @@
 import {Args, Mutation, Query, Resolver} from "@nestjs/graphql";
 import {TicketService} from "../ticket.service";
 import {UseGuards} from "@nestjs/common";
-import {CurrentUser, JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {CurrentUser, JwtAtGuard} from "../../auth/guards/jwt-at.guard";
 import {Ticket} from "../entities/ticket.entity";
 import {CreateTicketInput} from "../dto/ticket-create.input";
 import {UpdateTicketInput} from "../dto/ticket-update.input";
 import {UserService} from "../../user/user.service";
 import {JWTPayload} from "../../auth/auth.service";
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAtGuard)
 @Resolver(Ticket)
 export class TicketMutationsResolver {
   constructor(

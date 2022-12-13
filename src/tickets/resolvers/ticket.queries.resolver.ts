@@ -1,10 +1,10 @@
 import {Resolver} from "@nestjs/graphql";
 import {TicketService} from "../ticket.service";
-import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {JwtAtGuard} from "../../auth/guards/jwt-at.guard";
 import {UseGuards} from "@nestjs/common";
 import {Ticket} from "../entities/ticket.entity";
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAtGuard)
 @Resolver(Ticket)
 export class TicketQueriesResolver {
   constructor(private readonly ticketService: TicketService) {

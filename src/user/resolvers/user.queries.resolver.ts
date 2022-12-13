@@ -5,9 +5,9 @@ import {UseGuards} from "@nestjs/common";
 import {RolesGuard} from "../../auth/guards/roles.guard";
 import {Roles} from "../../auth/decorators/roles.decorator";
 import {Role} from "../../auth/decorators/role.enum";
-import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {JwtAtGuard} from "../../auth/guards/jwt-at.guard";
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAtGuard)
 @Resolver(User)
 export class UserQueriesResolver {
   constructor(private readonly userService: UserService) {

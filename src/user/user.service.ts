@@ -24,7 +24,7 @@ export class UserService {
     if (await this.getUserByLogin(user.email) || await this.getUserByLogin(user.username) || await this.getUserByLogin(user.phone)) {
       throw new Error("user_already_exists");
     }
-    const password = await Utils.hashPassword(user.password);
+    const password = await Utils.hash(user.password);
     const createdUser = this.userRepository.create({
       ...user,
       password,
@@ -42,7 +42,7 @@ export class UserService {
   async update(user: UpdateUserInput, id: number) {
     const userToUpdate = await this.userRepository.findOne(id);
     if (userToUpdate) {
-      const password = await Utils.hashPassword(user.password);
+      const password = await Utils.hash(user.password);
       await this.userRepository.update(id, {
         ...user,
         password,
@@ -100,10 +100,9 @@ export class UserService {
     await this.verifCodeRepository.delete({email: userToVerify.email});
   }
 
-  async insertTokens(user_id: number, access_token: string, refresh_token: string) {
+  async insertRefreshToken(user_id: number, refresh_token: string) {
     const userToInsert = await this.userRepository.findOne(user_id);
-    userToInsert.accessToken = access_token;
-    userToInsert.refreshToken = refresh_token;
+    userToInsert.refreshToken = await Utils.hash(refresh_token);
     await this.userRepository.save(userToInsert);
   }
 }

@@ -5,7 +5,8 @@ import {PassportModule} from "@nestjs/passport";
 import {UserModule} from "src/user/user.module";
 import {AuthService} from "./auth.service";
 import {AuthMutationsResolver} from "./resolvers/auth.mutations.resolver";
-import {JwtStrategy} from "./strategies/jwt.strategy";
+import {JwtAtStrategy} from "./strategies/jwt-at.strategy";
+import {JwtRtGuard} from "./strategies/jwt-rt.strategy";
 import {LocalStrategy} from "./strategies/local.strategy";
 
 @Module({
@@ -19,7 +20,8 @@ import {LocalStrategy} from "./strategies/local.strategy";
     AuthService,
     AuthMutationsResolver,
     LocalStrategy,
-    JwtStrategy
+    JwtAtStrategy,
+    JwtRtGuard,
   ],
 })
 export class AuthModule {

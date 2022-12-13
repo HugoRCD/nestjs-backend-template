@@ -48,10 +48,6 @@ export class User {
   @Column({default: false})
     isVerified: boolean;
 
-  @Field(() => String, {description: "JWT accessToken"})
-  @Column({nullable: true, length: 600})
-    accessToken: string;
-
   @Field(() => String, {description: "JWT refreshToken"})
   @Column({nullable: true, length: 600})
     refreshToken: string;
