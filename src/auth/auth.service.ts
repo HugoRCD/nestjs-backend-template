@@ -50,7 +50,8 @@ export class AuthService {
     const userToRefresh = await this.userService.getUserById(user.id);
     const decodedRefreshToken = await Utils.deHash(refreshToken, userToRefresh.refreshToken);
     if (decodedRefreshToken) {
-      const {accessToken, refreshToken, user} = await this.login(userToRefresh, false);
+      const accessToken = await this.createAccessToken(user);
+      const refreshToken = decodedRefreshToken;
       return {accessToken, refreshToken, user};
     }
   }
@@ -64,9 +65,9 @@ export class AuthService {
     return null;
   }
 
-  async login(user: User, createNewRefreshToken: boolean): Promise<AuthLoginOutput> {
+  async login(user: User): Promise<AuthLoginOutput> {
     const accessToken = await this.createAccessToken(user);
-    const refreshToken = createNewRefreshToken ? await this.createRefreshToken(user) : user.refreshToken;
+    const refreshToken = await this.createRefreshToken(user);
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -76,7 +77,7 @@ export class AuthService {
 
   async signup(createUserInput: CreateUserInput): Promise<AuthLoginOutput> {
     const userCreated = await this.userService.create(createUserInput);
-    const {accessToken, refreshToken, user} = await this.login(userCreated, true);
+    const {accessToken, refreshToken, user} = await this.login(userCreated);
     return {accessToken, refreshToken, user};
   }
 

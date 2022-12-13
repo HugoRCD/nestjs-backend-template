@@ -23,7 +23,7 @@ export class AuthMutationsResolver {
       @Args("username") _username: string,
       @Args("password") _password: string,
   ) {
-    const login_response = await this.authService.login(req.user, false);
+    const login_response = await this.authService.login(req.user);
     await this.userService.insertRefreshToken(req.user.id, login_response.refreshToken);
     return login_response;
   }
