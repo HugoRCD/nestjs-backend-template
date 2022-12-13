@@ -23,7 +23,7 @@ export class AuthMutationsResolver {
       @Args("username") _username: string,
       @Args("password") _password: string,
   ) {
-    const login_response = await this.authService.login(req.user);
+    const login_response = await this.authService.login(req.user, false);
     await this.userService.insertRefreshToken(req.user.id, login_response.refreshToken);
     return login_response;
   }
@@ -37,7 +37,7 @@ export class AuthMutationsResolver {
 
   @UseGuards(JwtRtGuard)
   @Mutation(() => AuthLoginOutput)
-  async RefreshToken(
+  async refreshToken(
       @CurrentUser() user,
       @Args("refreshToken") refreshToken: string,
   ) {
