@@ -106,7 +106,7 @@ type Query {
 type Mutation {
   authLogin(username: String!, password: String!): AuthLoginOutput!
   authSignup(user: CreateUserInput!): AuthLoginOutput!
-  refreshToken(refreshToken: String!): AuthLoginOutput!
+  refreshToken(id: Float!, refreshToken: String!): AuthLoginOutput!
   createUser(user: CreateUserInput!): User!
   updateUser(user: UpdateUserInput!, id: Float!): User!
   deleteUser(id: Float!): String!

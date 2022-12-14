@@ -46,8 +46,8 @@ export class AuthService {
     });
   }
 
-  async refreshToken(user: User, refreshToken: string): Promise<AuthLoginOutput> {
-    const userToRefresh = await this.userService.getUserById(user.id);
+  async refreshToken(id: number, refreshToken: string): Promise<AuthLoginOutput> {
+    const userToRefresh = await this.userService.getUserById(id);
     const decodedRefreshToken = await Utils.deHash(refreshToken, userToRefresh.refreshToken);
     if (decodedRefreshToken) {
       const accessToken = await this.createAccessToken(userToRefresh);

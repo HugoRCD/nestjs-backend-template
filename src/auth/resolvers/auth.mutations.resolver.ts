@@ -38,9 +38,9 @@ export class AuthMutationsResolver {
   @UseGuards(JwtRtGuard)
   @Mutation(() => AuthLoginOutput)
   async refreshToken(
-      @CurrentUser() user,
+      @Args("id") id: number,
       @Args("refreshToken") refreshToken: string,
   ) {
-    return await this.authService.refreshToken(user, refreshToken);
+    return await this.authService.refreshToken(id, refreshToken);
   }
 }
