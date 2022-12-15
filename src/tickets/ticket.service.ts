@@ -19,7 +19,7 @@ export class TicketService {
   }
 
   async create(ticket: CreateTicketInput, user: JWTPayload) {
-    const name = Math.floor(Math.random() * 1000000000).toString();
+    const name = "#" + Math.floor(Math.random() * 10000) + " - " + ticket.type;
     const email = user.email;
     const ownerId = user.id;
     const createdTicket = this.ticketRepository.create({

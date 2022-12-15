@@ -53,7 +53,7 @@ const domains = [
           }
         },
         defaults: {
-          from: "contact@maisonhochard.com",
+          from: "No Reply < demo@vuetemplate.com >",
         },
         preview: false,
         template: {

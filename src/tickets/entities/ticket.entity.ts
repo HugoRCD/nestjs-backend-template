@@ -27,10 +27,6 @@ export class Ticket {
   @Column({default: TicketStatus.OPEN})
     status: string;
 
-  @ManyToOne(() => User)
-  @Field(() => User, {description: "Ticket owner"})
-    owner: User;
-
   @Column()
     ownerId: number;
 
