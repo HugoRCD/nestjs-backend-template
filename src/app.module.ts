@@ -11,10 +11,10 @@ import {AppResolver} from "./app.resolver";
 import {AuthModule} from "./auth/auth.module";
 import {UserModule} from "./user/user.module";
 import {MailerModule} from "@nestjs-modules/mailer";
-import {PugAdapter} from "@nestjs-modules/mailer/dist/adapters/pug.adapter";
 import {MailingModule} from "./mailing/mailing.module";
 import {CronModule} from "./cron/cron.module";
 import {TicketModule} from "./tickets/ticket.module";
+import {HandlebarsAdapter} from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 
 const domains = [
   "http://localhost:8080",
@@ -57,8 +57,8 @@ const domains = [
         },
         preview: false,
         template: {
-          dir: process.cwd() + "/src/mailing/templates/",
-          adapter: new PugAdapter(),
+          dir: join(__dirname, "mailing/templates"),
+          adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
           },

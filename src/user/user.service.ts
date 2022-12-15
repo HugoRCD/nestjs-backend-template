@@ -78,7 +78,7 @@ export class UserService {
     await this.verifCodeRepository.save(verifCode);
     const user = await this.userRepository.findOne({where: {email: email}});
     if (sendMail) {
-      this.MailingService.sendMail(user, "verifCode", "Verification code",
+      this.MailingService.sendMail(user, "verif-code", "Verification code",
         {
           username: user.username,
           code: verifCode.code,
