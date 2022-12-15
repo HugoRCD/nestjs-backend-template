@@ -31,7 +31,7 @@ export class UserService {
     });
     await this.userRepository.save(createdUser);
     const verifCode = await this.createVerificationCode(user.email, false);
-    this.MailingService.sendMail(createdUser, "welcome", "Welcome !!!",
+    this.MailingService.sendMail(createdUser, "new-user", "Welcome !!!",
       {
         username: createdUser.username,
         code: verifCode.code,
